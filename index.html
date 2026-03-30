@@ -34,14 +34,27 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans SC
 
 /* === HEADER === */
 .hdr { background: var(--wh); padding: 28px 20px; text-align: center; border-bottom: 1px solid var(--bd); }
-.hdr h1 { font-size: 1.45rem; font-weight: 700; color: #475569; letter-spacing: 0.5px; display: flex; align-items: center; justify-content: center; } 
-.beta-badge { font-size: 12px; background: #FFFBEB; color: #D97706; padding: 2px 8px; border-radius: 12px; margin-left: 8px; font-weight: 600; letter-spacing: 0; border: 1px solid #FDE68A; line-height: 1; }
-.hdr .sub { font-size: 13px; color: var(--t3); margin-top: 8px; letter-spacing: 0.8px; line-height: 1.8; }
+.hdr h1 { font-size: 1.45rem; font-weight: 700; color: #475569; letter-spacing: 0.5px; display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 6px;} 
+.beta-badge { font-size: 11px; background: #FFFBEB; color: #D97706; padding: 2px 6px; border-radius: 6px; font-weight: 700; letter-spacing: 0; border: 1px solid #FDE68A; line-height: 1.2; display: inline-block; transform: translateY(-2px); }
+.hdr .sub { font-size: 13px; color: var(--t3); margin-top: 8px; letter-spacing: 0.5px; line-height: 1.8; }
 
 /* === LAYOUT === */
 .ly { display: flex; gap: 24px; padding: 24px 20px; max-width: 1240px; margin: 0 auto; }
 .pn { width: 360px; flex-shrink: 0; position: relative; }
-.pn-in { position: sticky; top: 24px; }
+
+/* 左侧面板吸顶并隐藏滚动条 */
+.pn-in { 
+  position: sticky; 
+  top: 24px; 
+  max-height: calc(100vh - 48px); 
+  overflow-y: auto; 
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+}
+.pn-in::-webkit-scrollbar { 
+  display: none; /* Chrome, Safari and Opera */
+}
+
 .mn { flex: 1; min-width: 0; }
 
 /* === CARDS (一级卡片) === */
@@ -55,6 +68,14 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans SC
 .fg input { width: 100%; height: 38px; padding: 8px 12px; border: 1px solid var(--bd); border-radius: var(--r-input); font-size: 14px; outline: none; background: var(--wh); transition: border 0.15s, box-shadow 0.15s; }
 .fg input:focus { border-color: var(--c1); box-shadow: 0 0 0 3px var(--c1l); }
 .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+/* === 滑动开关 (Toggle Switch) === */
+.switch { position: relative; display: inline-block; width: 40px; height: 22px; flex-shrink: 0; }
+.switch input { opacity: 0; width: 0; height: 0; }
+.slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #E2E8F0; transition: .3s; border-radius: 22px; }
+.slider:before { position: absolute; content: ""; height: 18px; width: 18px; left: 2px; bottom: 2px; background-color: white; transition: .3s; border-radius: 50%; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+input:checked + .slider { background-color: var(--c1); }
+input:checked + .slider:before { transform: translateX(18px); }
 
 /* === 二级凹陷卡片 === */
 .scd { background-color: var(--bg-sub); border-radius: var(--r-input); padding: 14px 16px; margin-top: 12px; border: 1px solid #E5E7EB; }
@@ -144,8 +165,12 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans SC
 .modal-close:hover { color: var(--cr); }
 .modal-bd { padding: 0; overflow-y: auto; }
 
-/* Law Links Grid */
-.dict-sec { margin-top: 40px; }
+/* Law Links Grid & Collapsible Box */
+.cp-box { margin-bottom: 16px; }
+.cp-btn { background: var(--wh); color: var(--t1); border: 1px solid var(--bd); padding: 12px 24px; font-size: 14px; font-weight: 600; border-radius: var(--r-input); cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: 8px; box-shadow: var(--sh); transition: all 0.2s; width: 100%; max-width: 400px; }
+.cp-btn:hover { background: var(--bg2); border-color: var(--c1); color: var(--c1); }
+.cp-bd { display: none; margin-top: 16px; background: transparent; border-radius: var(--r-card); overflow: hidden; }
+.cp-bd.on { display: block; animation: fi .25s ease; }
 .law-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); }
 .law-list li a { display: block; padding: 14px 16px; background: var(--bg2); border: 1px solid var(--bd); border-radius: var(--r-input); color: var(--t1); text-decoration: none; font-size: 13px; line-height: 1.5; transition: all .2s; }
 .law-list li a strong { display: block; color: var(--c1d); margin-bottom: 4px; font-size: 14px; }
@@ -166,8 +191,12 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans SC
 .ftr a:hover { color: var(--c1); }
 
 @media(max-width: 899px) {
+  .hdr { padding: 20px 16px; }
+  .hdr h1 { font-size: 1.25rem; }
+  .beta-badge { padding: 2px 6px; font-size: 10px; }
   .ly { flex-direction: column; padding: 16px; }
-  .pn { width: 100%; } .pn-in { position: static; }
+  .pn { width: 100%; } 
+  .pn-in { position: static; max-height: none; overflow-y: visible; padding-right: 0; }
   body.hr .pn { position: fixed; left: 0; top: 0; bottom: 0; width: 88vw; max-width: 380px; z-index: 100;
     transform: translateX(-100%); transition: transform .3s cubic-bezier(.4, 0, .2, 1); overflow-y: auto;
     background: var(--bg); padding: 20px 16px 80px; box-shadow: 4px 0 24px rgba(0,0,0,.15); }
@@ -181,10 +210,11 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans SC
 <body>
 
 <div class="hdr">
-  <h1>🏗️ 泰国建筑设计指标速查 <span class="beta-badge">Beta</span></h1>
+  <h1>🇹🇭 泰国建筑设计指标速查 <span class="beta-badge">Beta</span></h1>
   <div class="sub">
-    Thai Building Code · Pre-Design Quick Check V0.6.1<br>
-    📅 数据截至：2026-03-26 ｜ ⚠️ 本工具仅作设计前阶段概算，具体指标需自行核对最新原文。
+    Thai Building · Pre-Design Quick Check V0.6.1<br>
+    📅 数据截至：2026-03-26<br>
+    ⚠️ 本工具仅作设计前阶段概算，具体指标需自行核对最新原文。
   </div>
 </div>
 
@@ -193,18 +223,28 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans SC
 <div class="pn" id="pn">
 <div class="pn-in">
 
-<div class="cd">
-  <h3>项目信息</h3>
-  <div class="fg"><label>所在地</label>
-    <div class="pls">
-      <label class="pl on"><input type="radio" name="loc" value="bkk" checked onchange="updRadios('loc')">曼谷</label>
-      <label class="pl"><input type="radio" name="loc" value="oth" onchange="updRadios('loc')">外府</label>
+<div class="cd" style="padding: 16px 20px;">
+  <h3 style="margin-bottom: 14px;">项目信息</h3>
+  <div style="display: flex; align-items: center; justify-content: space-between;">
+    <!-- 所在地 -->
+    <div style="display: flex; align-items: center; gap: 8px;">
+      <span style="font-size: 13px; font-weight: 600; color: var(--t3); transition: color 0.2s;" id="lb-oth">外府</span>
+      <label class="switch">
+        <input type="checkbox" id="locToggle" checked onchange="updToggleUI()">
+        <span class="slider"></span>
+      </label>
+      <span style="font-size: 13px; font-weight: 600; color: var(--c1); transition: color 0.2s;" id="lb-bkk">曼谷</span>
     </div>
-  </div>
-  <div class="fg"><label>IEAT 工业园区</label>
-    <div class="pls">
-      <label class="pl on"><input type="radio" name="ie" value="0" checked onchange="updRadios('ie')">否</label>
-      <label class="pl"><input type="radio" name="ie" value="1" onchange="updRadios('ie')">是</label>
+    
+    <div style="width: 1px; height: 16px; background: var(--bd);"></div>
+    
+    <!-- IEAT园区 -->
+    <div style="display: flex; align-items: center; gap: 8px;">
+      <span style="font-size: 13px; font-weight: 600; color: var(--t1);">IEAT 园区</span>
+      <label class="switch">
+        <input type="checkbox" id="ieToggle">
+        <span class="slider"></span>
+      </label>
     </div>
   </div>
 </div>
@@ -265,7 +305,7 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans SC
   </div>
   
   <div style="text-align:center; margin-top:20px;">
-    <button class="btn bs" style="width:100%; font-size:13px; height:36px;" onclick="document.getElementById('mr63Modal').classList.add('show')">📄 查看 MR63 洁具标准数据字典</button>
+    <button class="btn bs" style="width:100%; font-size:13px; height:36px;" onclick="document.getElementById('mr63Modal').classList.add('show')">📄 查看 MR63 洁具标准数据自查</button>
   </div>
 </div>
 
@@ -291,21 +331,25 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans SC
     </div>
     
     <div id="res"></div>
-    
+
     <!-- Laws Link Box -->
-    <div class="dict-sec">
-      <h3 style="font-size:15px; margin-bottom:16px; color:var(--t1);">🔗 泰国建筑法规检索库</h3>
-      <ul class="law-list">
-        <li><a href="https://asa.or.th/laws-and-regulations/cba/" target="_blank"><strong>พระราชบัญญัติควบคุมอาคาร พ.ศ. 2522</strong>建筑控制法 (1979) 及历届修正版</a></li>
-        <li><a href="https://asa.or.th/laws-and-regulations/cba/" target="_blank"><strong>กฎกระทรวง ฉบับที่ 33 / 50 / 69</strong>第 33 号部令：高层与特大型建筑消防与安全</a></li>
-        <li><a href="https://asa.or.th/laws-and-regulations/cba/" target="_blank"><strong>กฎกระทรวง ฉบับที่ 55 (พ.ศ. 2543)</strong>第 55 号部令：建筑外部退让、间距及尺寸标准</a></li>
-        <li><a href="https://asa.or.th/laws-and-regulations/cba/" target="_blank"><strong>กฎกระทรวง ฉบับที่ 39 / 63</strong>第 39/63 号部令：卫生间、照明、通风及应急设施</a></li>
-        <li><a href="https://asa.or.th/laws-and-regulations/cba/" target="_blank"><strong>กฎกระทรวง ฉบับที่ 7 / 41 / 64</strong>第 7 号部令：各类型建筑的停车位配置标准</a></li>
-        <li><a href="https://asa.or.th/laws-and-regulations/cba/" target="_blank"><strong>กฎกระทรวง กำหนดการออกแบบโครงสร้างอาคารฯ</strong>结构设计、抗震要求及材料标准 (2023更新)</a></li>
-        <li><a href="https://asa.or.th/laws-and-regulations/cba/" target="_blank"><strong>กฎกระทรวง ฉบับที่ 44 / 51 / 71</strong>第 44 号部令：排水、排污及废弃物处理系统</a></li>
-        <li><a href="https://asa.or.th/laws-and-regulations/cba/" target="_blank"><strong>กฎกระทรวง กำหนดสิ่งอำนวยความสะดวกในอาคารฯ</strong>建筑无障碍设施设计规范 (老弱病残人士适用)</a></li>
-        <li><a href="https://asa.or.th/laws-and-regulations/cba/" target="_blank"><strong>ข้อบัญญัติกรุงเทพมหานคร เรื่อง ควบคุมอาคาร พ.ศ. 2544</strong>曼谷市建筑控制地方法规 (2001)</a></li>
-      </ul>
+    <div class="cp-box" style="text-align: center; margin-top: 32px; background: transparent; box-shadow: none; border: none;">
+      <button class="cp-btn" style="max-width: 100%;" onclick="document.getElementById('resLawBd').classList.toggle('on');">
+        🔗 泰国建筑法规检索库 (点击展开)
+      </button>
+      <div class="cp-bd" id="resLawBd" style="text-align: left; margin-top: 16px; box-shadow: none;">
+        <ul class="law-list" style="padding: 0;">
+          <li><a href="https://asa.or.th/laws-and-regulations/cba/" target="_blank"><strong>พระราชบัญญัติควบคุมอาคาร พ.ศ. 2522</strong>建筑控制法 (1979) 及历届修正版</a></li>
+          <li><a href="https://asa.or.th/laws-and-regulations/cba/" target="_blank"><strong>กฎกระทรวง ฉบับที่ 33 / 50 / 69</strong>第 33 号部令：高层与特大型建筑消防与安全</a></li>
+          <li><a href="https://asa.or.th/laws-and-regulations/cba/" target="_blank"><strong>กฎกระทรวง ฉบับที่ 55 (พ.ศ. 2543)</strong>第 55 号部令：建筑外部退让、间距及尺寸标准</a></li>
+          <li><a href="https://asa.or.th/laws-and-regulations/cba/" target="_blank"><strong>กฎกระทรวง ฉบับที่ 39 / 63</strong>第 39/63 号部令：卫生间、照明、通风及应急设施</a></li>
+          <li><a href="https://asa.or.th/laws-and-regulations/cba/" target="_blank"><strong>กฎกระทรวง ฉบับที่ 7 / 41 / 64</strong>第 7 号部令：各类型建筑的停车位配置标准</a></li>
+          <li><a href="https://asa.or.th/laws-and-regulations/cba/" target="_blank"><strong>กฎกระทรวง กำหนดการออกแบบโครงสร้างอาคารฯ</strong>结构设计、抗震要求及材料标准 (2023更新)</a></li>
+          <li><a href="https://asa.or.th/laws-and-regulations/cba/" target="_blank"><strong>กฎกระทรวง ฉบับที่ 44 / 51 / 71</strong>第 44 号部令：排水、排污及废弃物处理系统</a></li>
+          <li><a href="https://asa.or.th/laws-and-regulations/cba/" target="_blank"><strong>กฎกระทรวง กำหนดสิ่งอำนวยความสะดวกในอาคารฯ</strong>建筑无障碍设施设计规范 (老弱病残人士适用)</a></li>
+          <li><a href="https://asa.or.th/laws-and-regulations/cba/" target="_blank"><strong>ข้อบัญญัติกรุงเทพมหานคร เรื่อง ควบคุมอาคาร พ.ศ. 2544</strong>曼谷市建筑控制地方法规 (2001)</a></li>
+        </ul>
+      </div>
     </div>
   </div>
 </div>
@@ -318,7 +362,7 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans SC
 <div class="modal-ov" id="mr63Modal">
   <div class="modal-cd">
     <div class="modal-hdr">
-      <h3>📄 附表：MR63 洁具标准数据查询</h3>
+      <h3>📄 MR63 洁具标准数据自查</h3>
       <button class="modal-close" onclick="document.getElementById('mr63Modal').classList.remove('show')">×</button>
     </div>
     <div class="modal-bd">
@@ -457,8 +501,8 @@ const PK={factory:240,warehouse:240,office:60,commercial:20,hotel:'rm',dormitory
 const $=id=>document.getElementById(id);
 const V=id=>parseFloat($(id).value)||0;
 const Vi=id=>parseInt($(id).value)||0;
-const gLoc=()=>document.querySelector('[name=loc]:checked').value;
-const gIE=()=>document.querySelector('[name=ie]:checked').value==='1';
+const gLoc=()=>$('locToggle').checked ? 'bkk' : 'oth';
+const gIE=()=>$('ieToggle').checked;
 const gFn=()=>[...document.querySelectorAll('#fns input:checked')].map(c=>c.value);
 
 function tc(n,tiers,inc){
@@ -487,14 +531,15 @@ const PDBox = (title, content, ref) => `
 </div>`;
 
 /* ====== UI ====== */
-function updRadios(name) {
-  document.querySelectorAll(`input[name="${name}"]`).forEach(i => {
-    i.parentElement.classList.toggle('on', i.checked);
-  });
+function updToggleUI() {
+  const isBkk = $('locToggle').checked;
+  $('lb-bkk').style.color = isBkk ? 'var(--c1)' : 'var(--t3)';
+  $('lb-oth').style.color = !isBkk ? 'var(--c1)' : 'var(--t3)';
 }
+
 function upd(){
   document.querySelectorAll('.pl').forEach(p=>{
-    const ipt = p.querySelector('input');
+    const ipt = p.querySelector('input[type="checkbox"]');
     if(ipt) p.classList.toggle('on', ipt.checked);
   });
   const fn=gFn();
@@ -510,6 +555,9 @@ function rst(){
     const cb = p.querySelector('input[type=checkbox]');
     if(cb) { p.classList.remove('on'); cb.checked=false; }
   });
+  $('locToggle').checked = true;
+  $('ieToggle').checked = false;
+  updToggleUI();
   upd();$('resWrapper').classList.add('hid');$('ph').classList.remove('hid');
   document.body.classList.remove('hr','po');
 }
@@ -701,12 +749,12 @@ function calc(){
   if(m33) a+= N('💡 <b>平面图公示</b>：首层须集中保管全楼各层平面图备查；每层电梯厅须张贴带有所有房间位置、消防栓、灭火器、逃生门和消防电梯标记的平面图。','MR33 ข้อ8ตรี','b');
   
   a += PDBox('无障碍设计 (部令 2548/2564)', '<b>残疾人车位</b>：每10-50个常规车位需配建1个无障碍车位。<br><b>无障碍设施</b>：需按建筑人数比例及对应面积标准配建无障碍卫生间。<br><b>坡道与电梯</b>：无障碍轮椅坡道坡度必须≤1:12，电梯门宽及语音播报具有硬性要求。', 'กฎกระทรวงฯ พ.ศ. 2548');
+  a += PDBox('建筑节能规范 (DEDE BEC)', '总面积 ≥2000㎡ 强制要求的外墙总传热值（OTTV）、屋顶传热值（RTTV）、照明功率密度（LPD）。', 'DEDE BEC');
   
   h+=`<div class="tp on" id="tp-ar">${a}</div>`;}
 
   /* ======== TAB: STRUCTURE ======== */
   {let s='';
-  s += PDBox('荷载与抗震 (MR 2566)', '<b>抗震设防</b>：按项目所在府/区划分抗震设防等级，需进行专项计算。<br><b>风荷载</b>：不同高度区段风压取值标准有明确要求，需依地区基准风速复核。', 'MR 2566');
   
   if(m33){
     s+=`<div class="rc bl-s"><h4>🧱 防火构造</h4><div class="rg">
@@ -725,6 +773,7 @@ function calc(){
   if(bkk){
     s+= N('💡 <b>曼谷结构耐火细则</b>：曼谷项目需依 ข้อบัญญัติ กทม. ข้อ57 查表获取柱、梁、板、承重墙的具体最低耐火时间要求。','BMA 2544','b');
   }
+  s += PDBox('荷载与抗震 (MR 2566)', '<b>抗震设防</b>：按项目所在府/区划分抗震设防等级，需进行专项计算。<br><b>风荷载</b>：不同高度区段风压取值标准有明确要求，需依地区基准风速复核。', 'MR 2566');
   h+=`<div class="tp" id="tp-st">${s}</div>`;}
 
   /* ======== TAB: HVAC ======== */
@@ -746,7 +795,6 @@ function calc(){
     hv+=`<div class="rc bl-o"><h4>❄️ 一般通风要求</h4>
     ${N('所有使用房间必须配备面积不少于其地面面积 10% 的可开启外窗用于自然通风，或设置满足 ACH 强制要求的机械排风系统；卫生间必须具备良好的自然或机械排气条件。','MR55 ข้อ19-21')}</div>`;
   }
-  hv += PDBox('建筑节能规范 (DEDE BEC)', '总面积 ≥2000㎡ 强制要求的外墙总传热值（OTTV）、屋顶传热值（RTTV）、照明功率密度（LPD）。', 'DEDE BEC');
   
   h+=`<div class="tp" id="tp-hv">${hv}</div>`;}
 
