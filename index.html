@@ -16,16 +16,18 @@
   --wh: #FFFFFF;     
   --t1: #111827;     /* 主文本/深黑 */
   --t2: #4B5563;     /* 次要文本/加深中灰 */
-  --t3: #6B7280;     /* 辅助说明文本/中灰 (已加深对比度) */
-  --cr: #DC2626;     /* 警告/硬指标数值深红 */
+  --t3: #6B7280;     /* 辅助说明文本/中灰 */
+  --cr: #DC2626;     /* 警告深红 */
   --crl: #FEE2E2;
-  --cg: #059669;     /* 成功/合规绿 */
+  --cg: #059669;     /* 成功绿 */
   --cgl: #DCFCE7;
   --cw: #D97706;     /* 提示橙 */
   --cwl: #FEF3C7;
-  --bd: #E5E7EB;     /* 统一边框色 */
-  --r-card: 10px;    /* 卡片圆角 */
-  --r-input: 6px;    /* 控件圆角 */
+  --cp: #7C3AED;     /* IEAT 专属紫 */
+  --cpl: #F3E8FF;
+  --bd: #E5E7EB;     /* 边框色 */
+  --r-card: 10px;    
+  --r-input: 6px;    
   --sh: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03); 
 }
 
@@ -41,47 +43,35 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans SC
 /* === LAYOUT === */
 .ly { display: flex; gap: 24px; padding: 24px 20px; max-width: 1240px; margin: 0 auto; }
 .pn { width: 360px; flex-shrink: 0; position: relative; }
-
-/* 左侧面板吸顶并隐藏滚动条 */
-.pn-in { 
-  position: sticky; 
-  top: 24px; 
-  max-height: calc(100vh - 48px); 
-  overflow-y: auto; 
-  scrollbar-width: none; /* Firefox */
-  -ms-overflow-style: none; /* IE and Edge */
-}
-.pn-in::-webkit-scrollbar { 
-  display: none; /* Chrome, Safari and Opera */
-}
-
+.pn-in { position: sticky; top: 24px; max-height: calc(100vh - 48px); overflow-y: auto; scrollbar-width: none; -ms-overflow-style: none; }
+.pn-in::-webkit-scrollbar { display: none; }
 .mn { flex: 1; min-width: 0; }
 
-/* === CARDS (一级卡片) === */
+/* === CARDS === */
 .cd { background: var(--wh); border-radius: var(--r-card); box-shadow: var(--sh); padding: 20px; margin-bottom: 16px; border: 1px solid #f3f4f6; }
 .cd h3 { font-size: 15px; font-weight: 700; margin-bottom: 16px; color: var(--t1); display: flex; align-items: center; justify-content: space-between; }
 .cd hr { border: none; border-top: 1px solid var(--bd); margin: 16px 0; }
 
-/* === FORM & GRID INPUTS === */
+/* === FORM === */
 .fg { margin-bottom: 12px; }
 .fg > label { display: block; font-size: 13px; font-weight: 600; color: var(--t1); margin-bottom: 6px; }
 .fg input { width: 100%; height: 38px; padding: 8px 12px; border: 1px solid var(--bd); border-radius: var(--r-input); font-size: 14px; outline: none; background: var(--wh); transition: border 0.15s, box-shadow 0.15s; }
 .fg input:focus { border-color: var(--c1); box-shadow: 0 0 0 3px var(--c1l); }
 .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
 
-/* === 滑动开关 (Toggle Switch) === */
+/* === TOGGLE SWITCH === */
 .switch { position: relative; display: inline-block; width: 40px; height: 22px; flex-shrink: 0; }
 .switch input { opacity: 0; width: 0; height: 0; }
 .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #E2E8F0; transition: .3s; border-radius: 22px; }
 .slider:before { position: absolute; content: ""; height: 18px; width: 18px; left: 2px; bottom: 2px; background-color: white; transition: .3s; border-radius: 50%; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
 input:checked + .slider { background-color: var(--c1); }
 input:checked + .slider:before { transform: translateX(18px); }
+.switch-ieat input:checked + .slider { background-color: var(--cp); } /* IEAT purple */
 
-/* === 二级凹陷卡片 === */
 .scd { background-color: var(--bg-sub); border-radius: var(--r-input); padding: 14px 16px; margin-top: 12px; border: 1px solid #E5E7EB; }
 .scd-t { font-size: 12px; color: var(--t2); margin-bottom: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
 
-/* === 药丸化控件 (Pills) === */
+/* === PILLS === */
 .pls { display: flex; flex-wrap: wrap; gap: 8px; }
 .pl { display: inline-flex; align-items: center; justify-content: center; padding: 8px 16px; border: 1px solid var(--bd); border-radius: 6px; font-size: 13px; cursor: pointer; transition: all .15s ease; background: var(--wh); color: var(--t1); user-select: none; font-weight: 500; }
 .pl input { display: none; }
@@ -126,7 +116,7 @@ input:checked + .slider:before { transform: translateX(18px); }
 .rf { background: #e0f2fe; color: #0369a1; padding: 4px 8px; border-radius: 4px; font-size: 11px; font-family: Monaco, Consolas, monospace; white-space: nowrap; font-weight: 600; flex-shrink: 0; }
 .nt.nw { background: var(--cwl); color: #92400e; } .nt.nw .rf { background: #fde68a; color: #92400e; }
 .nt.nb { background: var(--c1l); color: #1e40af; } .nt.nb .rf { background: #bfdbfe; color: #1e40af; }
-.nt.np { background: #faf5ff; color: #6d28d9; } .nt.np .rf { background: #e9d5ff; color: #6d28d9; }
+.nt.np { background: var(--cpl); color: #5B21B6; border-left: 3px solid var(--cp); } .nt.np .rf { background: #E9D5FF; color: #5B21B6; } /* Purple for IEAT */
 .nt.nerr { background: #fef2f2; color: #b91c1c; border-left: 4px solid #ef4444; } .nt.nerr .rf { background: #fca5a5; color: #991b1b; }
 
 /* tags */
@@ -135,7 +125,7 @@ input:checked + .slider:before { transform: translateX(18px); }
 .tgg { background: var(--cgl); color: var(--cg); }
 .tb2 { background: var(--c1l); color: var(--c1d); }
 .ta { background: var(--cwl); color: #92400e; }
-.tv { background: #faf5ff; color: #7c3aed; }
+.tv { background: var(--cpl); color: var(--cp); }
 
 /* tabs */
 .tabs { display: flex; border-bottom: 2px solid var(--bd); margin-bottom: 20px; overflow-x: auto; gap: 8px; }
@@ -150,7 +140,7 @@ input:checked + .slider:before { transform: translateX(18px); }
 @keyframes fi { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
 
 /* === MOBILE DRAWER === */
-.ov { display: none; position: fixed; inset: 0; background: rgba(17, 24, 39, 0.4); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); z-index: 90; transition: opacity .3s; }
+.ov { display: none; position: fixed; inset: 0; background: rgba(17, 24, 39, 0.4); backdrop-filter: blur(4px); z-index: 90; transition: opacity .3s; }
 .fab { display: none; position: fixed; bottom: 30px; left: 20px; width: 56px; height: 56px; border-radius: 50%; background: var(--c1); color: #fff; border: none; box-shadow: 0 4px 14px rgba(37, 99, 235, 0.4); cursor: pointer; z-index: 80; transition: transform .15s; font-size: 24px; font-weight: bold; font-family: sans-serif; align-items: center; justify-content: center; }
 .fab:active { transform: scale(.9); }
 
@@ -212,21 +202,19 @@ input:checked + .slider:before { transform: translateX(18px); }
 <div class="hdr">
   <h1>🇹🇭 泰国建筑设计指标速查 <span class="beta-badge">Beta</span></h1>
   <div class="sub">
-    Thai Building · Pre-Design Quick Check V0.6.1<br>
+    Thai Building Code · Pre-Design Quick Check V0.6.2<br>
     📅 数据截至：2026-03-26<br>
     ⚠️ 本工具仅作设计前阶段概算，具体指标需自行核对最新原文。
   </div>
 </div>
 
 <div class="ly">
-<!-- ====== LEFT PANEL ====== -->
 <div class="pn" id="pn">
 <div class="pn-in">
 
 <div class="cd" style="padding: 16px 20px;">
   <h3 style="margin-bottom: 14px;">项目信息</h3>
   <div style="display: flex; align-items: center; justify-content: space-between;">
-    <!-- 所在地 -->
     <div style="display: flex; align-items: center; gap: 8px;">
       <span style="font-size: 13px; font-weight: 600; color: var(--t3); transition: color 0.2s;" id="lb-oth">外府</span>
       <label class="switch">
@@ -238,11 +226,10 @@ input:checked + .slider:before { transform: translateX(18px); }
     
     <div style="width: 1px; height: 16px; background: var(--bd);"></div>
     
-    <!-- IEAT园区 -->
     <div style="display: flex; align-items: center; gap: 8px;">
-      <span style="font-size: 13px; font-weight: 600; color: var(--t1);">IEAT 园区</span>
-      <label class="switch">
-        <input type="checkbox" id="ieToggle">
+      <span style="font-size: 13px; font-weight: 600; color: var(--t1);" id="lb-ieat">IEAT 园区</span>
+      <label class="switch switch-ieat">
+        <input type="checkbox" id="ieToggle" onchange="updToggleUI()">
         <span class="slider"></span>
       </label>
     </div>
@@ -311,28 +298,24 @@ input:checked + .slider:before { transform: translateX(18px); }
 
 </div></div>
 
-<!-- ====== RIGHT MAIN ====== -->
 <div class="mn">
   <div id="ph" style="text-align:center; padding:120px 20px; color:var(--t3)">
     <div style="font-size:32px; margin-bottom:16px; color:var(--t3)">📊</div>
     <div style="font-size:16px; font-weight:600; color:var(--t2)">在左侧填写项目参数，获取专属法规指标</div>
-    <div style="font-size:13px; margin-top:8px">系统将自动评估 MR33、MR55 及 BMA2544 等核心合规项</div>
+    <div style="font-size:13px; margin-top:8px">系统将自动评估 MR33、MR55、IEAT 及 BMA2544 等核心合规项</div>
   </div>
   
   <div class="hid" id="resWrapper">
-    <!-- Header of Results -->
     <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px; padding:0 4px;">
       <h2 style="font-size:18px; font-weight:700; color:var(--t1); margin:0;">📊 规范核查报告</h2>
     </div>
     
-    <!-- Disclaimer -->
     <div class="nt nb" style="margin-bottom: 16px; background: #e0f2fe; border-left: 4px solid #0284c7; color: #0369a1; padding: 14px;">
       <div class="nt-txt">💡 <b>温馨提示</b>：当前版本以建筑专业核心指标为主。其他专业仅提取了部分跨专业强制性条款，<b>并非完整合规结果</b>，详细技术要求请务必查阅各专业独立规范。</div>
     </div>
     
     <div id="res"></div>
 
-    <!-- Laws Link Box -->
     <div class="cp-box" style="text-align: center; margin-top: 32px; background: transparent; box-shadow: none; border: none;">
       <button class="cp-btn" style="max-width: 100%;" onclick="document.getElementById('resLawBd').classList.toggle('on');">
         🔗 泰国建筑法规检索库 (点击展开)
@@ -344,6 +327,7 @@ input:checked + .slider:before { transform: translateX(18px); }
           <li><a href="https://asa.or.th/laws-and-regulations/cba/" target="_blank"><strong>กฎกระทรวง ฉบับที่ 55 (พ.ศ. 2543)</strong>第 55 号部令：建筑外部退让、间距及尺寸标准</a></li>
           <li><a href="https://asa.or.th/laws-and-regulations/cba/" target="_blank"><strong>กฎกระทรวง ฉบับที่ 39 / 63</strong>第 39/63 号部令：卫生间、照明、通风及应急设施</a></li>
           <li><a href="https://asa.or.th/laws-and-regulations/cba/" target="_blank"><strong>กฎกระทรวง ฉบับที่ 7 / 41 / 64</strong>第 7 号部令：各类型建筑的停车位配置标准</a></li>
+          <li><a href="https://asa.or.th/laws-and-regulations/cba/" target="_blank"><strong>ประกาศการนิคมอุตสาหกรรมแห่งประเทศไทย ที่ 103/2556</strong>IEAT 工业区土地开发与建筑控制规章</a></li>
           <li><a href="https://asa.or.th/laws-and-regulations/cba/" target="_blank"><strong>กฎกระทรวง กำหนดการออกแบบโครงสร้างอาคารฯ</strong>结构设计、抗震要求及材料标准 (2023更新)</a></li>
           <li><a href="https://asa.or.th/laws-and-regulations/cba/" target="_blank"><strong>กฎกระทรวง ฉบับที่ 44 / 51 / 71</strong>第 44 号部令：排水、排污及废弃物处理系统</a></li>
           <li><a href="https://asa.or.th/laws-and-regulations/cba/" target="_blank"><strong>กฎกระทรวง กำหนดสิ่งอำนวยความสะดวกในอาคารฯ</strong>建筑无障碍设施设计规范 (老弱病残人士适用)</a></li>
@@ -358,7 +342,6 @@ input:checked + .slider:before { transform: translateX(18px); }
 <div class="ov" id="ov" onclick="closeP()"></div>
 <button class="fab" id="fab" onclick="openP()">→</button>
 
-<!-- ====== MODAL: MR63 TABLE ====== -->
 <div class="modal-ov" id="mr63Modal">
   <div class="modal-cd">
     <div class="modal-hdr">
@@ -434,7 +417,7 @@ input:checked + .slider:before { transform: translateX(18px); }
           <tr><td class="gp">女</td><td>4</td><td>-</td><td>-</td><td>1</td></tr>
           <tr><td class="gw">男</td><td class="tl" rowspan="2">200m² < 面积 ≤ 400m² 或 100 < 摊位数 ≤ 200 (取大值)</td><td>3</td><td>3</td><td>-</td><td>1</td></tr>
           <tr><td class="gp">女</td><td>6</td><td>-</td><td>-</td><td>1</td></tr>
-          <tr><td class="gw">男</td><td class="tl" rowspan="2">400m² < 面积 ≤ 600m² 或 200 < 摊位数 ≤ 300 (取大值)</td><td>4</td><td>4</td><td>-</td><td>2</td></tr>
+          <tr><td class="gw">男</td><td class="tl" rowspan="2">400m² < 面积 ≤ 600m² หรือ 200 < 摊位数 ≤ 300 (取大值)</td><td>4</td><td>4</td><td>-</td><td>2</td></tr>
           <tr><td class="gp">女</td><td>8</td><td>-</td><td>-</td><td>2</td></tr>
           <tr><td class="gw">男</td><td class="tl" rowspan="2">600m² < 面积 ≤ 1000m² หรือ 300 < 摊位数 ≤ 500 (取大值)</td><td>5</td><td>5</td><td>-</td><td>2</td></tr>
           <tr><td class="gp">女</td><td>10</td><td>-</td><td>-</td><td>2</td></tr>
@@ -535,6 +518,9 @@ function updToggleUI() {
   const isBkk = $('locToggle').checked;
   $('lb-bkk').style.color = isBkk ? 'var(--c1)' : 'var(--t3)';
   $('lb-oth').style.color = !isBkk ? 'var(--c1)' : 'var(--t3)';
+  
+  const isIEAT = $('ieToggle').checked;
+  $('lb-ieat').style.color = isIEAT ? 'var(--cp)' : 'var(--t1)';
 }
 
 function upd(){
@@ -588,14 +574,18 @@ function calc(){
   if(xl)tg+=`<span class="tg tr">🔴 อาคารขนาดใหญ่พิเศษ 超大型 ≥10,000m²</span>`;
   if(lg&&!xl)tg+=`<span class="tg ta">🟡 อาคารขนาดใหญ่ 大型 >2,000m²</span>`;
   if(!hi&&!xl&&!lg)tg+=`<span class="tg tgg">✅ 一般建筑</span>`;
-  tg+=`<div style="margin-top:6px"><span class="tg tb2">${bkk?'曼谷':'外府'}</span>${ieat?'<span class="tg tv">IEAT</span>':''}</div>`;
+  tg+=`<div style="margin-top:6px"><span class="tg tb2">${bkk?'曼谷':'外府'}</span>${ieat?'<span class="tg tv">IEAT 园区</span>':''}</div>`;
   const rg=[];if(m33)rg.push('MR33');rg.push('MR39/63','MR55');if(bkk)rg.push('BMA2544');
+  if(ieat) rg.push('IEAT 103/2556');
   
   h+=`<div class="rc bl-r"><h4>📌 建筑分类判定</h4>${tg}<hr class="sep">
     <div style="font-size:12px;color:var(--t2)">依据：${rg.join(' · ')} ｜ FAR ${FAR.toFixed(2)}:1 ｜ ${H}m · ${FA}F${FB?'/B'+FB:''} ｜ ${A.toLocaleString()}m²</div>`;
   
   if(eiaAlert) {
     h+= N('<b>🚨 EIA 环评审批</b>：本项目总面积≥10,000㎡，或高度≥23m，或客房/住宅户数≥80套，已触发环评红线，审批周期较长，请优先确认。','EIA 规定','err');
+  }
+  if(ieat && hasR) {
+    h+= N('<b>🚫 IEAT 违规警告</b>：工业园区内【完全禁止】建设永久性住宅建筑！','IEAT公告 第8条','err');
   }
   h+=`</div>`;}
 
@@ -611,18 +601,36 @@ function calc(){
 
   /* ======== TAB: ARCHITECTURE ======== */
   {let a='';
-  const os=hasR?30:10; const bcr=100-os;
-  if(m33){const rr=A<=30000?10:18;
-    a+=`<div class="rc bl-b"><h4>📐 总图与退让</h4><div class="rg">
-      <div class="ri"><div class="n">≥${rr}m</div><div class="l">临路道路宽度要求</div></div>
-      <div class="ri"><div class="n">≥12m</div><div class="l">地块临路边长要求</div></div>
-      <div class="ri ${S>0?(FAR<=10?'ok':'ng'):''}"><div class="n">${FAR.toFixed(2)}:1</div><div class="l">容积率 (FAR) 须≤10:1</div></div>
-      <div class="ri"><div class="n">≤${bcr}%</div><div class="l">建筑密度上限 (BCR)</div></div>
-      <div class="ri"><div class="n">≥6.0m</div><div class="l">各向退让</div></div>
-      <div class="ri"><div class="n">≥6.0m</div><div class="l">消防环道</div></div>
-    </div>
-    ${N('<b>道路</b>：须连续至另一条≥'+rr+'m公共道路。<b>退让</b>：含地下，基础除外。<b>环道</b>：无遮挡绕建筑一周。','MR33 ข้อ2-4')}
-    </div>`;}
+  const os = ieat ? 30 : (hasR ? 30 : 10); 
+  const bcr = 100 - os;
+  
+  if(m33 || ieat){
+    const rr = m33 ? (A<=30000?10:18) : 6; 
+    a+=`<div class="rc bl-b"><h4>📐 总图与退让</h4><div class="rg">`;
+    
+    if(m33) {
+      a+=`<div class="ri"><div class="n">≥${rr}m</div><div class="l">临路道路宽度要求</div></div>
+          <div class="ri"><div class="n">≥12m</div><div class="l">地块临路边长要求</div></div>`;
+    }
+    
+    a+=`<div class="ri ${S>0?(FAR<=10?'ok':'ng'):''}"><div class="n">${FAR.toFixed(2)}:1</div><div class="l">容积率 (FAR) 须≤10:1</div></div>
+        <div class="ri"><div class="n">≤${bcr}%</div><div class="l">建筑密度上限 (BCR)</div></div>`;
+    
+    if(ieat) {
+      a+=`<div class="ri"><div class="n">≥${H>12?12:6}m</div><div class="l">前院临路退让</div></div>
+          <div class="ri"><div class="n">≥5.0m</div><div class="l">相邻地界侧退让</div></div>`;
+    } else {
+      a+=`<div class="ri"><div class="n">≥6.0m</div><div class="l">各向退让</div></div>`;
+    }
+    
+    if(m33) {
+      a+=`<div class="ri"><div class="n">≥6.0m</div><div class="l">消防环道</div></div>`;
+    }
+    
+    a+=`</div>`;
+    if(m33 && !ieat) a+= N('<b>道路</b>：须连续至另一条公共道路。<b>退让</b>：含地下，基础除外。<b>环道</b>：无遮挡绕建筑一周。','MR33 ข้อ2-4');
+    if(ieat) a+= N('<b>🟣 IEAT 退让专规</b>：高度>12m前院退让≥12m，≤12m前院退让≥6m；侧院及后院距地界≥5m。园区内空地率严格要求≥30%（即建筑密度必须≤70%）。','IEAT 第10/15条', 'p');
+    a+=`</div>`;}
   
   // 疏散与逃生
   a+=`<div class="rc bl-w"><h4>🚶 疏散与逃生距离</h4><div class="rg">
@@ -728,21 +736,32 @@ function calc(){
   if(fn.length>1) a+= N('💡 <b>混合功能计算提示</b>：当前系统基于总面积进行全局估算。若为混合功能建筑（如住宅+商业），建议按各功能实际面积分算以获得精确指标。','','b');
   a+=`</div>`;
 
-  a+=`<div class="rc bl-g"><h4>🚗 停车配套</h4>`;
+  a+=`<div class="rc bl-g"><h4>🚗 停车及交通配套</h4>`;
   let tPk=0;
-  fn.forEach(ty=>{const r=bkk?PK[ty]:null;let pk=0,lb='';
-    if(r==='rm'){pk=RM;lb=RM+'间·1辆/间';}
-    else if(r==='u'){pk=0;lb='按户数计算';}
-    else if(r==='10s'){pk=ST>0?Math.ceil(ST/10):0;lb=ST+'座÷10';}
-    else if(typeof r==='number'){pk=A>0?Math.ceil(A/r):0;lb=A.toLocaleString()+'m²÷'+r;}
-    else{pk=A>0?Math.ceil(A/240):0;lb=A.toLocaleString()+'m²÷240(MR7)';}
-    tPk+=pk;
-    a+=`<div style="font-size:13px;display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px dotted var(--bd)"><span>${T[ty]?.nm||ty}</span><span><b style="color:var(--t1)">${pk}</b> 辆 <span style="color:var(--t3);font-size:11px;margin-left:4px">[${lb}]</span></span></div>`;
-  });
-  if(fn.length>1)a+=`<div style="font-size:14px;font-weight:700;text-align:right;margin-top:10px">合计 ≈ ${tPk} 辆</div>`;
-  a+= N('<b>坡道及车道</b>：直线坡度 ≤15%，曲线坡度 ≤12%，单/双行车道宽度需满足规范下限。','');
-  a+= N(bkk?'依据曼谷条例 BMA ข้อ79 计算，实际以审图核定为准。':'依据 MR7 通用标准计算，实际以审图核定为准。','');
-  if(ieat){const tr=S>0?Math.ceil(S/100):0; a+= N(`🌳 IEAT绿化附加要求：≈${tr}棵 (1棵/100m²用地)`,'','p');}
+  
+  if(ieat) {
+    tPk = A > 0 ? Math.ceil(A / 240) : 0;
+    a+=`<div style="font-size:13px;display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px dotted var(--bd)"><span>IEAT 园区统一标准</span><span><b style="color:var(--t1)">${tPk}</b> 辆 <span style="color:var(--t3);font-size:11px;margin-left:4px">[${A.toLocaleString()}m²÷240]</span></span></div>`;
+    a+= N('<b>🟣 IEAT 交通专规</b>：双向出入口宽度必须≥6.0m；多个出入口间距≥60m；距道路交叉口曲线起点≥40m；原则上严禁出入口直接连接园区主干道。', 'IEAT 第18-20条', 'p');
+  } else {
+    fn.forEach(ty=>{const r=bkk?PK[ty]:null;let pk=0,lb='';
+      if(r==='rm'){pk=RM;lb=RM+'间·1辆/间';}
+      else if(r==='u'){pk=0;lb='按户数计算';}
+      else if(r==='10s'){pk=ST>0?Math.ceil(ST/10):0;lb=ST+'座÷10';}
+      else if(typeof r==='number'){pk=A>0?Math.ceil(A/r):0;lb=A.toLocaleString()+'m²÷'+r;}
+      else{pk=A>0?Math.ceil(A/240):0;lb=A.toLocaleString()+'m²÷240(MR7)';}
+      tPk+=pk;
+      a+=`<div style="font-size:13px;display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px dotted var(--bd)"><span>${T[ty]?.nm||ty}</span><span><b style="color:var(--t1)">${pk}</b> 辆 <span style="color:var(--t3);font-size:11px;margin-left:4px">[${lb}]</span></span></div>`;
+    });
+    if(fn.length>1)a+=`<div style="font-size:14px;font-weight:700;text-align:right;margin-top:10px">合计 ≈ ${tPk} 辆</div>`;
+    a+= N('<b>坡道及车道</b>：直线坡度 ≤15%，曲线坡度 ≤12%，单/双行车道宽度需满足规范下限。','');
+    a+= N(bkk?'依据曼谷条例 BMA ข้อ79 计算，实际以审图核定为准。':'依据 MR7 通用标准计算，实际以审图核定为准。','');
+  }
+  
+  if(ieat){
+    const tr=S>0?Math.ceil(S/1600):0; 
+    a+= N(`<b>🟣 IEAT 绿化附加要求</b>：≥ ${tr} 棵 (即 1棵 / 1莱，1莱=1600m²)`,'IEAT 第27条','p');
+  }
   a+=`</div>`;
   
   if(m33&&isPub) a+= N('💡 <b>AED 预留</b>：高层/超大型公共建筑须预留 AED 安装位置。','MR33 ข้อ29/2','b');
@@ -838,6 +857,10 @@ function calc(){
     ${N('必须设置规范的化粪池或污水处理系统，化粪池距离公共水体边缘 ≥10m；建筑物雨水和生活污水管道必须分离。','MR55 / MR39')}</div>`;
   }
   if(fn.length>1) pl+= N('💡 <b>混合功能计算提示</b>：当前日垃圾量估算是基于建筑总面积/总人数。若为混合功能建筑，建议按各功能实际指标单独查算。','','b');
+  
+  if(ieat){
+    pl+= N('<b>🟣 IEAT 排水专规</b>：雨污必须完全分离。雨水管每隔≤8m及转弯处须设沉砂池；所有污水必须排入园区集中处理系统，采用闭式管道并配备水质检查井。', 'IEAT 第22条', 'p');
+  }
   
   pl += PDBox('消防工程标准 (EIT 3002)', '消防水池不应只用 MR33 的粗略算法，需按 EIT（照搬NFPA）的危险等级（Light/Ordinary/Extra Hazard）来确定喷淋水量和持续时间（如 60min 或 120min）。', 'EIT Standard 3002');
   pl += PDBox('污水处理排放标准 (PCD)', '化粪池和污水处理站（STP）的BOD排放指标和处理池容量硬性算法。', 'PCD Wastewater');
