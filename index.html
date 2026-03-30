@@ -604,33 +604,45 @@ function calc(){
   const os = ieat ? 30 : (hasR ? 30 : 10); 
   const bcr = 100 - os;
   
-  if(m33 || ieat){
-    const rr = m33 ? (A<=30000?10:18) : 6; 
-    a+=`<div class="rc bl-b"><h4>📐 总图与退让</h4><div class="rg">`;
-    
+  a+=`<div class="rc bl-b"><h4>📐 总图与退让</h4><div class="rg">`;
+  
+  // 高层/超大型专属（MR33）
+  if(m33 && !ieat) {
+    const rr = A<=30000 ? 10 : 18;
+    a+=`<div class="ri"><div class="n">≥${rr}m</div><div class="l">临路道路宽度要求</div></div>
+        <div class="ri"><div class="n">≥12m</div><div class="l">地块临路边长要求</div></div>`;
+    a+=`<div class="ri ${S>0?(FAR<=10?'ok':'ng'):''}"><div class="n">${FAR.toFixed(2)}:1</div><div class="l">容积率 (FAR) 须≤10:1</div></div>`;
+  }
+  
+  // 建筑密度（所有建筑均适用）
+  a+=`<div class="ri"><div class="n">≤${bcr}%</div><div class="l">建筑密度上限 (BCR)</div></div>`;
+  
+  // 退让判定
+  if(ieat) {
+    a+=`<div class="ri"><div class="n">≥${H>12?12:6}m</div><div class="l">前院临路退让</div></div>
+        <div class="ri"><div class="n">≥5.0m</div><div class="l">相邻地界侧退让</div></div>`;
+  } else if(m33) {
+    a+=`<div class="ri"><div class="n">≥6.0m</div><div class="l">各向地界退让</div></div>
+        <div class="ri"><div class="n">≥6.0m</div><div class="l">消防环道净宽</div></div>`;
+  } else {
+    // 普通建筑（MR55）
+    a+=`<div class="ri"><div class="n">${H>9 ? '≥3.0m' : '≥2.0m'}</div><div class="l">带窗相邻地界退让</div></div>`;
+  }
+  
+  a+=`</div>`;
+  
+  // 法规条文注释
+  if(ieat) {
+    a+= N('<b>🟣 IEAT 退让专规</b>：高度>12m前院退让≥12m，≤12m前院退让≥6m；侧院及后院距地界≥5m。园区内空地率严格要求≥30%（即建筑密度必须≤70%）。','IEAT 第10/15条', 'p');
+  } else {
+    a+= N('<b>空地率与密度 (MR55)</b>：住宅类建筑需保留≥30%空地，商业/办公等其他类需保留≥10%空地。', 'MR55 ข้อ33');
     if(m33) {
-      a+=`<div class="ri"><div class="n">≥${rr}m</div><div class="l">临路道路宽度要求</div></div>
-          <div class="ri"><div class="n">≥12m</div><div class="l">地块临路边长要求</div></div>`;
-    }
-    
-    a+=`<div class="ri ${S>0?(FAR<=10?'ok':'ng'):''}"><div class="n">${FAR.toFixed(2)}:1</div><div class="l">容积率 (FAR) 须≤10:1</div></div>
-        <div class="ri"><div class="n">≤${bcr}%</div><div class="l">建筑密度上限 (BCR)</div></div>`;
-    
-    if(ieat) {
-      a+=`<div class="ri"><div class="n">≥${H>12?12:6}m</div><div class="l">前院临路退让</div></div>
-          <div class="ri"><div class="n">≥5.0m</div><div class="l">相邻地界侧退让</div></div>`;
+      a+= N('<b>高层/超大型道路与退让 (MR33)</b>：须连续至另一条公共道路。各向退让≥6m（含地下，不含基础），建筑四周须有净宽≥6m且无遮挡的消防环形车道。','MR33 ข้อ2-4');
     } else {
-      a+=`<div class="ri"><div class="n">≥6.0m</div><div class="l">各向退让</div></div>`;
+      a+= N('<b>一般建筑退让 (MR55)</b>：临路退让依道路宽而定（宽<6m退中心线≥3m；宽10-20m退边线≥1/10路宽等）；临地界侧若有窗/门/阳台，高度≤9m退让≥2m，高度9-23m退让≥3m；实心墙经邻居书面同意可贴线或退0.5m（须设≥1.8m高实墙女儿墙）。', 'MR55 ข้อ41, 48-50');
     }
-    
-    if(m33) {
-      a+=`<div class="ri"><div class="n">≥6.0m</div><div class="l">消防环道</div></div>`;
-    }
-    
-    a+=`</div>`;
-    if(m33 && !ieat) a+= N('<b>道路</b>：须连续至另一条公共道路。<b>退让</b>：含地下，基础除外。<b>环道</b>：无遮挡绕建筑一周。','MR33 ข้อ2-4');
-    if(ieat) a+= N('<b>🟣 IEAT 退让专规</b>：高度>12m前院退让≥12m，≤12m前院退让≥6m；侧院及后院距地界≥5m。园区内空地率严格要求≥30%（即建筑密度必须≤70%）。','IEAT 第10/15条', 'p');
-    a+=`</div>`;}
+  }
+  a+=`</div>`;
   
   // 疏散与逃生
   a+=`<div class="rc bl-w"><h4>🚶 疏散与逃生距离</h4><div class="rg">
