@@ -8,15 +8,15 @@
 /* === 核心颜色规范 === */
 :root {
   --c1: #2563EB;     /* 主色调：专业蓝 */
-  --c1l: #DBEAFE;    /* 浅蓝背景 */
-  --c1d: #1D4ED8;    /* 深蓝交互 */
+  --c1l: #DBEAFE;    
+  --c1d: #1D4ED8;    
   --bg: #F3F5F7;     /* 全局底色：浅灰蓝 */
   --bg2: #F9FAFB;    /* 卡片内次级底色 */
   --bg-sub: #F5F5F5; /* 二级卡片凹陷底色 */
-  --wh: #FFFFFF;     /* 纯白卡片 */
+  --wh: #FFFFFF;     
   --t1: #111827;     /* 主文本/深黑 */
-  --t2: #6B7280;     /* 辅助说明文本/中灰 */
-  --t3: #9CA3AF;     /* 禁用或极弱文本 */
+  --t2: #4B5563;     /* 次要文本/加深中灰 */
+  --t3: #6B7280;     /* 辅助说明文本/中灰 (已加深对比度) */
   --cr: #DC2626;     /* 警告/硬指标数值深红 */
   --crl: #FEE2E2;
   --cg: #059669;     /* 成功/合规绿 */
@@ -26,7 +26,7 @@
   --bd: #E5E7EB;     /* 统一边框色 */
   --r-card: 10px;    /* 卡片圆角 */
   --r-input: 6px;    /* 控件圆角 */
-  --sh: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03); /* 柔和阴影 */
+  --sh: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03); 
 }
 
 *{margin:0;padding:0;box-sizing:border-box}
@@ -34,8 +34,9 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans SC
 
 /* === HEADER === */
 .hdr { background: var(--wh); padding: 28px 20px; text-align: center; border-bottom: 1px solid var(--bd); }
-.hdr h1 { font-size: 1.45rem; font-weight: 700; color: #475569; letter-spacing: 0.5px; } 
-.hdr .sub { font-size: 13px; color: #94A3B8; margin-top: 8px; letter-spacing: 0.8px; line-height: 1.8; }
+.hdr h1 { font-size: 1.45rem; font-weight: 700; color: #475569; letter-spacing: 0.5px; display: flex; align-items: center; justify-content: center; } 
+.beta-badge { font-size: 12px; background: #FFFBEB; color: #D97706; padding: 2px 8px; border-radius: 12px; margin-left: 8px; font-weight: 600; letter-spacing: 0; border: 1px solid #FDE68A; line-height: 1; }
+.hdr .sub { font-size: 13px; color: var(--t3); margin-top: 8px; letter-spacing: 0.8px; line-height: 1.8; }
 
 /* === LAYOUT === */
 .ly { display: flex; gap: 24px; padding: 24px 20px; max-width: 1240px; margin: 0 auto; }
@@ -45,17 +46,18 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans SC
 
 /* === CARDS (一级卡片) === */
 .cd { background: var(--wh); border-radius: var(--r-card); box-shadow: var(--sh); padding: 20px; margin-bottom: 16px; border: 1px solid #f3f4f6; }
-.cd h3 { font-size: 15px; font-weight: 700; margin-bottom: 16px; color: var(--t1); }
+.cd h3 { font-size: 15px; font-weight: 700; margin-bottom: 16px; color: var(--t1); display: flex; align-items: center; justify-content: space-between; }
+.cd hr { border: none; border-top: 1px solid var(--bd); margin: 16px 0; }
 
 /* === FORM & GRID INPUTS === */
 .fg { margin-bottom: 12px; }
-.fg > label { display: block; font-size: 13px; font-weight: 500; color: var(--t2); margin-bottom: 6px; }
+.fg > label { display: block; font-size: 13px; font-weight: 600; color: var(--t1); margin-bottom: 6px; }
 .fg input { width: 100%; height: 38px; padding: 8px 12px; border: 1px solid var(--bd); border-radius: var(--r-input); font-size: 14px; outline: none; background: var(--wh); transition: border 0.15s, box-shadow 0.15s; }
 .fg input:focus { border-color: var(--c1); box-shadow: 0 0 0 3px var(--c1l); }
 .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
 
 /* === 二级凹陷卡片 === */
-.scd { background-color: var(--bg-sub); border-radius: var(--r-input); padding: 14px 16px; margin-top: 12px; }
+.scd { background-color: var(--bg-sub); border-radius: var(--r-input); padding: 14px 16px; margin-top: 12px; border: 1px solid #E5E7EB; }
 .scd-t { font-size: 12px; color: var(--t2); margin-bottom: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
 
 /* === 药丸化控件 (Pills) === */
@@ -65,8 +67,8 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans SC
 .pl:hover { border-color: var(--c1); color: var(--c1); }
 .pl.on { background: var(--c1); border-color: var(--c1); color: var(--wh); }
 
-.btn { padding: 10px 24px; border: none; border-radius: 6px; font-size: 14px; font-weight: 600; cursor: pointer; transition: all .15s; letter-spacing: 0.5px; width: 100%; height: 42px; display: flex; align-items: center; justify-content: center; gap: 8px; }
-.bp { background: var(--c1); color: #fff; margin-bottom: 10px; box-shadow: 0 2px 4px rgba(37, 99, 235, 0.2); }
+.btn { padding: 10px 24px; border: none; border-radius: 6px; font-size: 14px; font-weight: 600; cursor: pointer; transition: all .15s; letter-spacing: 0.5px; display: flex; align-items: center; justify-content: center; gap: 8px; }
+.bp { background: var(--c1); color: #fff; box-shadow: 0 2px 4px rgba(37, 99, 235, 0.2); flex: 1; height: 42px; }
 .bp:hover { background: var(--c1d); }
 .bs { background: var(--wh); color: var(--t2); border: 1px solid var(--bd); }
 .bs:hover { background: var(--bg2); color: var(--t1); }
@@ -76,9 +78,10 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans SC
 .rc h4 { font-size: 15px; font-weight: 700; margin-bottom: 14px; padding-bottom: 10px; border-bottom: 1px solid var(--bd); color: var(--t1); }
 
 .rg { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 10px; margin-bottom: 12px; }
-.ri { background: var(--bg2); border-radius: var(--r-input); padding: 12px; text-align: center; border: 1px solid var(--bd); }
-.ri .n { font-size: 1.15rem; font-weight: 700; color: var(--cr); } /* 硬指标统一深红 */
-.ri .l { font-size: 12px; color: var(--t2); margin-top: 4px; }
+.ri { background: var(--bg2); border-radius: var(--r-input); padding: 12px; text-align: center; border: 1px solid var(--bd); transition: all 0.2s; }
+.ri:hover { background: var(--wh); box-shadow: 0 4px 12px rgba(0,0,0,0.06); transform: translateY(-2px); }
+.ri .n { font-size: 1.15rem; font-weight: 700; color: var(--cr); } 
+.ri .l { font-size: 12px; color: var(--t3); margin-top: 4px; }
 
 /* toilet cards */
 .wr { display: flex; gap: 12px; margin-bottom: 12px; }
@@ -91,7 +94,7 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans SC
 .wb .wv { display: flex; gap: 8px; flex-wrap: wrap; }
 .fi-item { flex: 1; min-width: 45px; background: rgba(255, 255, 255, 0.8); border-radius: 4px; padding: 8px 4px; text-align: center; }
 .wm .fi-item { border: 1px solid #dbeafe; } .wf .fi-item { border: 1px solid #fce7f3; }
-.fi-item span { display: block; font-size: 11px; color: var(--t2); margin-bottom: 4px; }
+.fi-item span { display: block; font-size: 11px; color: var(--t3); margin-bottom: 4px; }
 .wm .fi-item b { font-size: 16px; color: #2563eb; font-weight: 700; } 
 .wf .fi-item b { font-size: 16px; color: #db2777; font-weight: 700; }
 
@@ -103,6 +106,7 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans SC
 .nt.nw { background: var(--cwl); color: #92400e; } .nt.nw .rf { background: #fde68a; color: #92400e; }
 .nt.nb { background: var(--c1l); color: #1e40af; } .nt.nb .rf { background: #bfdbfe; color: #1e40af; }
 .nt.np { background: #faf5ff; color: #6d28d9; } .nt.np .rf { background: #e9d5ff; color: #6d28d9; }
+.nt.nerr { background: #fef2f2; color: #b91c1c; border-left: 4px solid #ef4444; } .nt.nerr .rf { background: #fca5a5; color: #991b1b; }
 
 /* tags */
 .tg { display: inline-block; padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; margin-right: 6px; margin-bottom: 6px; letter-spacing: 0.3px; }
@@ -129,32 +133,35 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans SC
 .fab { display: none; position: fixed; bottom: 30px; left: 20px; width: 56px; height: 56px; border-radius: 50%; background: var(--c1); color: #fff; border: none; box-shadow: 0 4px 14px rgba(37, 99, 235, 0.4); cursor: pointer; z-index: 80; transition: transform .15s; font-size: 24px; font-weight: bold; font-family: sans-serif; align-items: center; justify-content: center; }
 .fab:active { transform: scale(.9); }
 
-/* === ISOLATED DICTIONARY & LAW LINKS === */
-.dict-sec { background: #E5E7EB; padding: 50px 20px; margin-top: 40px; border-top: 1px solid #D1D5DB; }
-.dict-inner { max-width: 1240px; margin: 0 auto; }
-.cp-box { margin-bottom: 16px; }
-.cp-btn { background: var(--wh); color: var(--t1); border: 1px solid var(--bd); padding: 12px 24px; font-size: 14px; font-weight: 600; border-radius: var(--r-input); cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: 8px; box-shadow: var(--sh); transition: all 0.2s; width: 100%; max-width: 400px; }
-.cp-btn:hover { background: var(--bg2); border-color: var(--c1); color: var(--c1); }
-.cp-bd { display: none; margin-top: 16px; background: var(--wh); border-radius: var(--r-card); box-shadow: var(--sh); overflow: hidden; }
-.cp-bd.on { display: block; animation: fi .25s ease; }
+/* === MODAL (MR63 Table) === */
+.modal-ov { position: fixed; inset: 0; background: rgba(0,0,0,0.6); backdrop-filter: blur(4px); z-index: 1000; display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity 0.3s; }
+.modal-ov.show { opacity: 1; pointer-events: auto; }
+.modal-cd { background: #fff; width: 95%; max-width: 1000px; max-height: 85vh; border-radius: 12px; display: flex; flex-direction: column; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25); transform: scale(0.95); transition: transform 0.3s; }
+.modal-ov.show .modal-cd { transform: scale(1); }
+.modal-hdr { padding: 16px 20px; border-bottom: 1px solid var(--bd); display: flex; justify-content: space-between; align-items: center; background: var(--bg2); border-radius: 12px 12px 0 0; }
+.modal-hdr h3 { margin: 0; font-size: 16px; color: var(--t1); }
+.modal-close { background: none; border: none; font-size: 24px; cursor: pointer; color: var(--t3); line-height: 1; transition: color 0.2s; }
+.modal-close:hover { color: var(--cr); }
+.modal-bd { padding: 0; overflow-y: auto; }
 
 /* Law Links Grid */
-.law-list { list-style: none; margin: 0; padding: 20px; display: grid; gap: 12px; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); }
+.dict-sec { margin-top: 40px; }
+.law-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); }
 .law-list li a { display: block; padding: 14px 16px; background: var(--bg2); border: 1px solid var(--bd); border-radius: var(--r-input); color: var(--t1); text-decoration: none; font-size: 13px; line-height: 1.5; transition: all .2s; }
 .law-list li a strong { display: block; color: var(--c1d); margin-bottom: 4px; font-size: 14px; }
 .law-list li a:hover { background: var(--wh); border-color: var(--c1); box-shadow: 0 4px 6px rgba(37,99,235,0.08); transform: translateY(-2px); }
 
 /* Table MR63 */
 .tb-r { width: 100%; border-collapse: collapse; font-size: 13px; text-align: center; }
-.tb-r th { background: var(--bg); color: var(--t2); padding: 14px 12px; font-weight: 600; border-bottom: 2px solid var(--bd); position: sticky; top: 0; z-index: 10; white-space: nowrap; }
-.tb-r td { padding: 12px 10px; border-bottom: 1px solid var(--bd); vertical-align: middle; }
+.tb-r th { background: var(--c1l); color: var(--c1d); padding: 14px 12px; font-weight: 700; border: 1px solid var(--bd); position: sticky; top: 0; z-index: 10; white-space: nowrap; }
+.tb-r td { padding: 12px 10px; border: 1px solid var(--bd); vertical-align: middle; }
 .tb-r tr:nth-child(even) td { background: var(--bg2); }
 .tb-r tr:hover td { background: #F1F5F9; }
 .tb-r .tl { text-align: left; line-height: 1.5; color: var(--t2); }
-.gw { color: #1e40af; font-weight: 600; } .gp { color: #be185d; font-weight: 600; } .gy { color: var(--t2); font-weight: 600; }
+.gw { color: #1e40af; font-weight: 600; } .gp { color: #be185d; font-weight: 600; } .gy { color: var(--t3); font-weight: 600; }
 .tr-s td { border-top: 2px solid var(--bd); }
 
-.ftr { text-align: center; padding: 24px; color: var(--t3); font-size: 12px; line-height: 1.8; }
+.ftr { text-align: center; padding: 24px; color: var(--t3); font-size: 12px; line-height: 1.8; margin-top: 20px; }
 .ftr a { color: var(--t2); text-decoration: underline; font-weight: 500; transition: color .2s; }
 .ftr a:hover { color: var(--c1); }
 
@@ -167,7 +174,6 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans SC
   body.hr .fab { display: flex; }
   body.po .pn { transform: translateX(0); }
   body.po .ov { display: block; }
-  .dict-sec { padding: 30px 16px; }
 }
 @media(max-width: 500px) { .r2 { grid-template-columns: 1fr; } .wr { flex-direction: column; } .rg { grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); } }
 </style>
@@ -175,9 +181,9 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans SC
 <body>
 
 <div class="hdr">
-  <h1>🏗️ 泰国建筑法规设计指标速查 (Beta版)</h1>
+  <h1>🏗️ 泰国建筑法规设计指标速查 <span class="beta-badge">Beta</span></h1>
   <div class="sub">
-    Thai Building Code · Pre-Design Quick Check V0.5<br>
+    Thai Building Code · Pre-Design Quick Check V0.6.1<br>
     📅 数据截至：2026-03-26 ｜ ⚠️ 本工具仅作设计前阶段概算，具体指标需自行核对最新原文。
   </div>
 </div>
@@ -221,7 +227,9 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans SC
     </div>
   </div>
   
-  <div class="grid-2" style="margin-top: 16px;">
+  <hr>
+
+  <div class="grid-2">
     <div class="fg"><label>总高度 (m)</label><input type="number" id="iH" placeholder="如 45"></div>
     <div class="fg"><label>总建筑面积 (m²)</label><input type="number" id="iA" placeholder="如 25000"></div>
     <div class="fg"><label>用地面积 (m²)</label><input type="number" id="iS" placeholder="如 5000"></div>
@@ -235,25 +243,29 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans SC
     <div class="fg" style="margin-bottom:0"><input type="number" id="iOc" placeholder="如 2000"></div>
   </div>
 
-  <div id="xW" class="hid scd">
+  <div id="xW" class="scd" style="display:none; margin-top:12px;">
     <div class="scd-t">工业 / 办公男女细分</div>
     <div class="grid-2">
       <div class="fg" style="margin-bottom:0"><input type="number" id="iM" placeholder="男性人数"></div>
       <div class="fg" style="margin-bottom:0"><input type="number" id="iF" placeholder="女性人数"></div>
     </div>
   </div>
-  <div id="xR" class="hid scd">
-    <div class="scd-t">客房总数</div>
-    <div class="fg" style="margin-bottom:0"><input type="number" id="iRm" placeholder="输入客房数量"></div>
+  <div id="xR" class="scd" style="display:none; margin-top:12px;">
+    <div class="scd-t">客房 / 住宅总户数</div>
+    <div class="fg" style="margin-bottom:0"><input type="number" id="iRm" placeholder="输入客房或户数"></div>
   </div>
-  <div id="xS" class="hid scd">
+  <div id="xS" class="scd" style="display:none; margin-top:12px;">
     <div class="scd-t">餐饮 / 会议座位数</div>
     <div class="fg" style="margin-bottom:0"><input type="number" id="iSt" placeholder="输入座位数量"></div>
   </div>
 
-  <div style="margin-top:20px;">
+  <div style="margin-top:24px; display:flex; align-items:center; gap:16px;">
     <button class="btn bp" onclick="calc()">生成规范核查报告</button>
-    <button class="btn bs" onclick="rst()">重置参数</button>
+    <a href="javascript:void(0)" onclick="rst()" style="color:var(--t2); text-decoration:underline; font-size:13px; white-space:nowrap;">清空重置</a>
+  </div>
+  
+  <div style="text-align:center; margin-top:20px;">
+    <button class="btn bs" style="width:100%; font-size:13px; height:36px;" onclick="document.getElementById('mr63Modal').classList.add('show')">📄 查看 MR63 洁具标准数据字典</button>
   </div>
 </div>
 
@@ -261,149 +273,153 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans SC
 
 <!-- ====== RIGHT MAIN ====== -->
 <div class="mn">
-  <div id="ph" style="text-align:center;padding:120px 20px;color:var(--t3)">
-    <div style="font-size:32px;margin-bottom:16px;color:var(--t3)">📊</div>
-    <div style="font-size:16px;font-weight:600;color:var(--t2)">在左侧填写项目参数，获取专属法规指标</div>
-    <div style="font-size:13px;margin-top:8px">系统将自动评估 MR33、MR55 及 BMA2544 等核心合规项</div>
+  <div id="ph" style="text-align:center; padding:120px 20px; color:var(--t3)">
+    <div style="font-size:32px; margin-bottom:16px; color:var(--t3)">📊</div>
+    <div style="font-size:16px; font-weight:600; color:var(--t2)">在左侧填写项目参数，获取专属法规指标</div>
+    <div style="font-size:13px; margin-top:8px">系统将自动评估 MR33、MR55 及 BMA2544 等核心合规项</div>
   </div>
-  <div id="res" class="hid"></div>
+  
+  <div class="hid" id="resWrapper">
+    <!-- Header of Results -->
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px; padding:0 4px;">
+      <h2 style="font-size:18px; font-weight:700; color:var(--t1); margin:0;">📊 规范核查报告</h2>
+    </div>
+    
+    <!-- Disclaimer -->
+    <div class="nt nb" style="margin-bottom: 16px; background: #e0f2fe; border-left: 4px solid #0284c7; color: #0369a1; padding: 14px;">
+      <div class="nt-txt">💡 <b>温馨提示</b>：当前版本以建筑专业核心指标为主。其他专业仅提取了部分跨专业强制性条款，<b>并非完整合规结果</b>，详细技术要求请务必查阅各专业独立规范。</div>
+    </div>
+    
+    <div id="res"></div>
+    
+    <!-- Laws Link Box -->
+    <div class="dict-sec">
+      <h3 style="font-size:15px; margin-bottom:16px; color:var(--t1);">🔗 泰国建筑法规检索库</h3>
+      <ul class="law-list">
+        <li><a href="https://asa.or.th/laws-and-regulations/cba/" target="_blank"><strong>พระราชบัญญัติควบคุมอาคาร พ.ศ. 2522</strong>建筑控制法 (1979) 及历届修正版</a></li>
+        <li><a href="https://asa.or.th/laws-and-regulations/cba/" target="_blank"><strong>กฎกระทรวง ฉบับที่ 33 / 50 / 69</strong>第 33 号部令：高层与特大型建筑消防与安全</a></li>
+        <li><a href="https://asa.or.th/laws-and-regulations/cba/" target="_blank"><strong>กฎกระทรวง ฉบับที่ 55 (พ.ศ. 2543)</strong>第 55 号部令：建筑外部退让、间距及尺寸标准</a></li>
+        <li><a href="https://asa.or.th/laws-and-regulations/cba/" target="_blank"><strong>กฎกระทรวง ฉบับที่ 39 / 63</strong>第 39/63 号部令：卫生间、照明、通风及应急设施</a></li>
+        <li><a href="https://asa.or.th/laws-and-regulations/cba/" target="_blank"><strong>กฎกระทรวง ฉบับที่ 7 / 41 / 64</strong>第 7 号部令：各类型建筑的停车位配置标准</a></li>
+        <li><a href="https://asa.or.th/laws-and-regulations/cba/" target="_blank"><strong>กฎกระทรวง กำหนดการออกแบบโครงสร้างอาคารฯ</strong>结构设计、抗震要求及材料标准 (2023更新)</a></li>
+        <li><a href="https://asa.or.th/laws-and-regulations/cba/" target="_blank"><strong>กฎกระทรวง ฉบับที่ 44 / 51 / 71</strong>第 44 号部令：排水、排污及废弃物处理系统</a></li>
+        <li><a href="https://asa.or.th/laws-and-regulations/cba/" target="_blank"><strong>กฎกระทรวง กำหนดสิ่งอำนวยความสะดวกในอาคารฯ</strong>建筑无障碍设施设计规范 (老弱病残人士适用)</a></li>
+        <li><a href="https://asa.or.th/laws-and-regulations/cba/" target="_blank"><strong>ข้อบัญญัติกรุงเทพมหานคร เรื่อง ควบคุมอาคาร พ.ศ. 2544</strong>曼谷市建筑控制地方法规 (2001)</a></li>
+      </ul>
+    </div>
+  </div>
 </div>
 </div>
 
 <div class="ov" id="ov" onclick="closeP()"></div>
 <button class="fab" id="fab" onclick="openP()">→</button>
 
-<!-- ====== ISOLATED DICTIONARY & LAWS SECTION ====== -->
-<div class="dict-sec">
-  <div class="dict-inner">
-    
-    <!-- Laws Link Box -->
-    <div class="cp-box" style="text-align: center;">
-      <button class="cp-btn" onclick="document.getElementById('lawBd').classList.toggle('on');">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>
-        🔗 泰国建筑法规检索库 (点击展开)
-      </button>
-      <div class="cp-bd" id="lawBd" style="text-align: left;">
-        <ul class="law-list">
-          <li><a href="https://asa.or.th/laws-and-regulations/cba/" target="_blank"><strong>พระราชบัญญัติควบคุมอาคาร พ.ศ. 2522</strong>建筑控制法 (1979) 及历届修正版</a></li>
-          <li><a href="https://asa.or.th/laws-and-regulations/cba/" target="_blank"><strong>กฎกระทรวง ฉบับที่ 33 / 50 / 69</strong>第 33 号部令：高层与特大型建筑消防与安全</a></li>
-          <li><a href="https://asa.or.th/laws-and-regulations/cba/" target="_blank"><strong>กฎกระทรวง ฉบับที่ 55 (พ.ศ. 2543)</strong>第 55 号部令：建筑外部退让、间距及尺寸标准</a></li>
-          <li><a href="https://asa.or.th/laws-and-regulations/cba/" target="_blank"><strong>กฎกระทรวง ฉบับที่ 39 / 63</strong>第 39/63 号部令：卫生间、照明、通风及应急设施</a></li>
-          <li><a href="https://asa.or.th/laws-and-regulations/cba/" target="_blank"><strong>กฎกระทรวง ฉบับที่ 7 / 41 / 64</strong>第 7 号部令：各类型建筑的停车位配置标准</a></li>
-          <li><a href="https://asa.or.th/laws-and-regulations/cba/" target="_blank"><strong>กฎกระทรวง กำหนดการออกแบบโครงสร้างอาคารฯ</strong>结构设计、抗震要求及材料标准 (2023更新)</a></li>
-          <li><a href="https://asa.or.th/laws-and-regulations/cba/" target="_blank"><strong>กฎกระทรวง ฉบับที่ 44 / 51 / 71</strong>第 44 号部令：排水、排污及废弃物处理系统</a></li>
-          <li><a href="https://asa.or.th/laws-and-regulations/cba/" target="_blank"><strong>กฎกระทรวง กำหนดสิ่งอำนวยความสะดวกในอาคารฯ</strong>建筑无障碍设施设计规范 (老弱病残人士适用)</a></li>
-          <li><a href="https://asa.or.th/laws-and-regulations/cba/" target="_blank"><strong>ข้อบัญญัติกรุงเทพมหานคร เรื่อง ควบคุมอาคาร พ.ศ. 2544</strong>曼谷市建筑控制地方法规 (2001)</a></li>
-        </ul>
-      </div>
+<!-- ====== MODAL: MR63 TABLE ====== -->
+<div class="modal-ov" id="mr63Modal">
+  <div class="modal-cd">
+    <div class="modal-hdr">
+      <h3>📄 附表：MR63 洁具标准数据查询</h3>
+      <button class="modal-close" onclick="document.getElementById('mr63Modal').classList.remove('show')">×</button>
     </div>
-
-    <!-- MR63 Table Box -->
-    <div class="cp-box" style="text-align: center; margin-top: 24px;">
-      <button class="cp-btn" onclick="document.getElementById('tbBd').classList.toggle('on');">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
-        📄 附表：MR63 洁具标准数据字典 (点击展开)
-      </button>
-      <div class="cp-bd" id="tbBd" style="overflow-x: auto;">
-        <table class="tb-r">
-          <thead>
-            <tr>
-              <th width="15%">建筑类别</th>
-              <th width="8%">对象</th>
-              <th width="35%">计算基准 (条件)</th>
-              <th width="10%">大便器</th>
-              <th width="10%">小便器</th>
-              <th width="10%">浴室</th>
-              <th width="10%">洗手盆</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr class="tr-s"><td rowspan="1">(1) 住宅建筑</td><td class="gy">通用</td><td class="tl">每 1 栋</td><td>1</td><td>-</td><td>1</td><td>-</td></tr>
-            <tr class="tr-s"><td rowspan="3">(2) 排屋/商业排屋</td><td class="gy" rowspan="3">通用</td><td class="tl">各层总面积 ≤ 200m²</td><td>1</td><td>-</td><td>-</td><td>-</td></tr>
-            <tr><td class="tl">各层总面积 > 200m²</td><td>2</td><td>1</td><td>1</td><td>-</td></tr>
-            <tr><td class="tl">高度 > 3层</td><td>2</td><td>1</td><td>1</td><td>-</td></tr>
-            <tr class="tr-s"><td rowspan="7">(3) 工厂</td><td class="gw">男</td><td class="tl">≤ 15人</td><td>1</td><td>1</td><td>1</td><td>1</td></tr>
-            <tr><td class="gp">女</td><td class="tl">≤ 15人</td><td>2</td><td>-</td><td>1</td><td>1</td></tr>
-            <tr><td class="gw">男</td><td class="tl">16 ~ 40人</td><td>2</td><td>2</td><td>2</td><td>2</td></tr>
-            <tr><td class="gp">女</td><td class="tl">16 ~ 40人</td><td>4</td><td>-</td><td>2</td><td>2</td></tr>
-            <tr><td class="gw">男</td><td class="tl">41 ~ 80人</td><td>3</td><td>3</td><td>3</td><td>3</td></tr>
-            <tr><td class="gp">女</td><td class="tl">41 ~ 80人</td><td>6</td><td>-</td><td>3</td><td>3</td></tr>
-            <tr><td class="gy">各自</td><td class="tl">> 80人 (每 +50人)</td><td>+1</td><td>+1 (男)</td><td>+1</td><td>+1</td></tr>
-            <tr class="tr-s"><td>(4) 酒店/临租</td><td class="gy">通用</td><td class="tl">每 1 间客房</td><td>1</td><td>-</td><td>1</td><td>1</td></tr>
-            <tr class="tr-s"><td>(5) 公寓</td><td class="gy">通用</td><td class="tl">每 1 套</td><td>1</td><td>-</td><td>1</td><td>1</td></tr>
-            <tr class="tr-s"><td>(6) 宿舍</td><td class="gy">通用</td><td class="tl">每 50m²</td><td>1</td><td>-</td><td>1</td><td>1</td></tr>
-            <tr class="tr-s"><td rowspan="2">(7) 会议厅/剧院</td><td class="gw">男</td><td class="tl" rowspan="2">每 200m² 或 每 100人 (取大值)</td><td>1</td><td>2</td><td>-</td><td>1</td></tr>
-            <tr><td class="gp">女</td><td>3</td><td>-</td><td>-</td><td>1</td></tr>
-            <tr class="tr-s"><td rowspan="4">(8) 教育机构</td><td class="gw" rowspan="2">男</td><td class="tl">≤ 500人 (每 50人)</td><td>1</td><td>1</td><td>-</td><td>1</td></tr>
-            <tr><td class="tl">> 500人 (超出部分 每 +100人)</td><td>+1</td><td>+1</td><td>-</td><td>+1</td></tr>
-            <tr><td class="gp" rowspan="2">女</td><td class="tl">≤ 500人 (每 50人)</td><td>2</td><td>-</td><td>-</td><td>1</td></tr>
-            <tr><td class="tl">> 500人 (超出部分 每 +100人)</td><td>+2</td><td>-</td><td>-</td><td>+1</td></tr>
-            <tr class="tr-s"><td rowspan="2">(9) 办公室</td><td class="gw">男</td><td class="tl" rowspan="2">每 300m²</td><td>1</td><td>2</td><td>-</td><td>1</td></tr>
-            <tr><td class="gp">女</td><td>3</td><td>-</td><td>-</td><td>1</td></tr>
-            <tr class="tr-s"><td rowspan="9">(10) 餐厅、饮食店</td><td class="gy">共用</td><td class="tl">面积 < 30m² 或 座位数 < 20 (取大值)</td><td>1</td><td>-</td><td>-</td><td>1</td></tr>
-            <tr><td class="gy">共用</td><td class="tl">30m² ≤ 面积 ≤ 45m² 或 20 ≤ 座位数 ≤ 30 (取大值)</td><td>1</td><td>1</td><td>-</td><td>1</td></tr>
-            <tr><td class="gw">男</td><td class="tl" rowspan="2">45m² < 面积 ≤ 75m² 或 31 ≤ 座位数 ≤ 50 (取大值)</td><td>1</td><td>1</td><td>-</td><td>1</td></tr>
-            <tr><td class="gp">女</td><td>2</td><td>-</td><td>-</td><td>1</td></tr>
-            <tr><td class="gw">男</td><td class="tl" rowspan="2">75m² < 面积 ≤ 105m² 或 51 ≤ 座位数 ≤ 70 (取大值)</td><td>2</td><td>2</td><td>-</td><td>2</td></tr>
-            <tr><td class="gp">女</td><td>4</td><td>-</td><td>-</td><td>2</td></tr>
-            <tr><td class="gw">男</td><td class="tl" rowspan="2">105m² < 面积 ≤ 150m² 或 71 ≤ 座位数 ≤ 100 (取大值)</td><td>3</td><td>3</td><td>-</td><td>3</td></tr>
-            <tr><td class="gp">女</td><td>6</td><td>-</td><td>-</td><td>3</td></tr>
-            <tr><td class="gy">各自</td><td class="tl">超出部分 (每 +150m² 或 每 +100座)</td><td>+1</td><td>+1 (男)</td><td>-</td><td>+1</td></tr>
-            <tr class="tr-s"><td rowspan="4">(11) 商业建筑</td><td class="gw">男</td><td class="tl" rowspan="2">每 200m² (适用于面积 ≤ 2000m²部分)</td><td>1</td><td>2</td><td>-</td><td>1</td></tr>
-            <tr><td class="gp">女</td><td>3</td><td>-</td><td>-</td><td>1</td></tr>
-            <tr><td class="gw">男</td><td class="tl" rowspan="2">> 2000m² (超出部分 每 +600m²)</td><td>+1</td><td>+2</td><td>-</td><td>+1</td></tr>
-            <tr><td class="gp">女</td><td>+2</td><td>-</td><td>-</td><td>+1</td></tr>
-            <tr class="tr-s"><td rowspan="2">(12) 仓储</td><td class="gw">男</td><td class="tl" rowspan="2">每 5000m²</td><td>1</td><td>1</td><td>-</td><td>1</td></tr>
-            <tr><td class="gp">女</td><td>2</td><td>-</td><td>-</td><td>1</td></tr>
-            <tr class="tr-s"><td rowspan="4">(13) 医疗机构</td><td class="gw">男</td><td class="tl" rowspan="2">门诊及公众区 (每 200m²)</td><td>2</td><td>2</td><td>-</td><td>1</td></tr>
-            <tr><td class="gp">女</td><td>4</td><td>-</td><td>-</td><td>1</td></tr>
-            <tr><td class="gy">通用</td><td class="tl">住院部 (每 5张病床)</td><td>1</td><td>1</td><td>1</td><td>1</td></tr>
-            <tr><td class="gy">特殊</td><td class="tl">手术室/ICU等专区</td><td colspan="4">按医疗法规定适宜配置</td></tr>
-            <tr class="tr-s"><td rowspan="2">(14) 娱乐场所</td><td class="gw">男</td><td class="tl" rowspan="2">每 200m²</td><td>1</td><td>2</td><td>-</td><td>1</td></tr>
-            <tr><td class="gp">女</td><td>3</td><td>-</td><td>-</td><td>1</td></tr>
-            <tr class="tr-s"><td rowspan="2">(15) 交通车站</td><td class="gw">男</td><td class="tl" rowspan="2">每 200m²</td><td>2</td><td>4</td><td>-</td><td>1</td></tr>
-            <tr><td class="gp">女</td><td>6</td><td>-</td><td>-</td><td>1</td></tr>
-            <tr class="tr-s"><td rowspan="2">(16) 公共停车楼</td><td class="gw">男</td><td class="tl" rowspan="2">每 1000m²</td><td>2</td><td>4</td><td>-</td><td>1</td></tr>
-            <tr><td class="gp">女</td><td>6</td><td>-</td><td>-</td><td>1</td></tr>
-            <tr class="tr-s"><td rowspan="2">(17) 室内体育场</td><td class="gw">男</td><td class="tl" rowspan="2">每 200m² 或 每 100人 (取大值)</td><td>1</td><td>2</td><td>-</td><td>1</td></tr>
-            <tr><td class="gp">女</td><td>3</td><td>-</td><td>-</td><td>1</td></tr>
-            <tr class="tr-s"><td rowspan="14">(18) 市场</td><td class="gw">男</td><td class="tl" rowspan="2">面积 ≤ 100m² 或 摊位数 ≤ 50摊 (取大值)</td><td>1</td><td>1</td><td>-</td><td rowspan="2">1 (共用)</td></tr>
-            <tr><td class="gp">女</td><td>2</td><td>-</td><td>-</td></tr>
-            <tr><td class="gw">男</td><td class="tl" rowspan="2">100m² < 面积 ≤ 200m² 或 50 < 摊位数 ≤ 100 (取大值)</td><td>2</td><td>2</td><td>-</td><td>1</td></tr>
-            <tr><td class="gp">女</td><td>4</td><td>-</td><td>-</td><td>1</td></tr>
-            <tr><td class="gw">男</td><td class="tl" rowspan="2">200m² < 面积 ≤ 400m² 或 100 < 摊位数 ≤ 200 (取大值)</td><td>3</td><td>3</td><td>-</td><td>1</td></tr>
-            <tr><td class="gp">女</td><td>6</td><td>-</td><td>-</td><td>1</td></tr>
-            <tr><td class="gw">男</td><td class="tl" rowspan="2">400m² < 面积 ≤ 600m² 或 200 < 摊位数 ≤ 300 (取大值)</td><td>4</td><td>4</td><td>-</td><td>2</td></tr>
-            <tr><td class="gp">女</td><td>8</td><td>-</td><td>-</td><td>2</td></tr>
-            <tr><td class="gw">男</td><td class="tl" rowspan="2">600m² < 面积 ≤ 1000m² 或 300 < 摊位数 ≤ 500 (取大值)</td><td>5</td><td>5</td><td>-</td><td>2</td></tr>
-            <tr><td class="gp">女</td><td>10</td><td>-</td><td>-</td><td>2</td></tr>
-            <tr><td class="gw">男</td><td class="tl" rowspan="2">1000m² < 面积 ≤ 2000m² หรือ 500 < 摊位数 ≤ 1000 (取大值)</td><td>7</td><td>7</td><td>-</td><td>3</td></tr>
-            <tr><td class="gp">女</td><td>14</td><td>-</td><td>-</td><td>3</td></tr>
-            <tr><td class="gy">各自</td><td class="tl">> 2000m² (每 +400m² หรือ 每 +200摊)</td><td>+1(男) <br>+2(女)</td><td>+1 (男)</td><td>-</td><td>-</td></tr>
-            <tr><td class="gy">通用</td><td class="tl">> 2000m² (每 +1000m² หรือ 每 +500摊)</td><td>-</td><td>-</td><td>-</td><td>+1</td></tr>
-            <tr class="tr-s"><td rowspan="6">(19) 加油/加气站</td><td class="gw">男</td><td class="tl" rowspan="2">机位数 ≤ 4台</td><td>1</td><td>1</td><td>1</td><td>1</td></tr>
-            <tr><td class="gp">女</td><td>2</td><td>-</td><td>1</td><td>1</td></tr>
-            <tr><td class="gw">男</td><td class="tl" rowspan="2">5 ≤ 机位数 ≤ 8台</td><td>2</td><td>2</td><td>1</td><td>2</td></tr>
-            <tr><td class="gp">女</td><td>4</td><td>-</td><td>1</td><td>2</td></tr>
-            <tr><td class="gw">男</td><td class="tl" rowspan="2">机位数 ≥ 9台</td><td>3</td><td>3</td><td>1</td><td>3</td></tr>
-            <tr><td class="gp">女</td><td>6</td><td>-</td><td>1</td><td>3</td></tr>
-            <tr class="tr-s"><td rowspan="7">(20) 临时建筑 (工棚等)</td><td class="gw">男</td><td class="tl">≤ 15人</td><td>1</td><td>-</td><td>1</td><td>1</td></tr>
-            <tr><td class="gp">女</td><td class="tl">≤ 15人</td><td>1</td><td>-</td><td>1</td><td>1</td></tr>
-            <tr><td class="gw">男</td><td class="tl">16 ~ 40人</td><td>2</td><td>-</td><td>2</td><td>1</td></tr>
-            <tr><td class="gp">女</td><td class="tl">16 ~ 40人</td><td>2</td><td>-</td><td>2</td><td>1</td></tr>
-            <tr><td class="gw">男</td><td class="tl">41 ~ 80人</td><td>3</td><td>-</td><td>3</td><td>1</td></tr>
-            <tr><td class="gp">女</td><td class="tl">41 ~ 80人</td><td>3</td><td>-</td><td>3</td><td>1</td></tr>
-            <tr><td class="gy">各自</td><td class="tl">> 80人 (每 +50人)</td><td>+1</td><td>-</td><td>+1</td><td>+1</td></tr>
-            <tr class="tr-s"><td rowspan="7">(21) 其他内勤建筑</td><td class="gw">男</td><td class="tl">≤ 15人</td><td>2</td><td>1</td><td>1</td><td>1</td></tr>
-            <tr><td class="gp">女</td><td class="tl">≤ 15人</td><td>3</td><td>-</td><td>1</td><td>1</td></tr>
-            <tr><td class="gw">男</td><td class="tl">16 ~ 40人</td><td>2</td><td>2</td><td>2</td><td>2</td></tr>
-            <tr><td class="gp">女</td><td class="tl">16 ~ 40人</td><td>4</td><td>-</td><td>2</td><td>2</td></tr>
-            <tr><td class="gw">男</td><td class="tl">41 ~ 80人</td><td>3</td><td>3</td><td>3</td><td>3</td></tr>
-            <tr><td class="gp">女</td><td class="tl">41 ~ 80人</td><td>6</td><td>-</td><td>3</td><td>3</td></tr>
-            <tr><td class="gy">各自</td><td class="tl">> 80人 (每 +50人)</td><td>+1</td><td>+1 (男)</td><td>+1</td><td>+1</td></tr>
-          </tbody>
-        </table>
-      </div>
+    <div class="modal-bd">
+      <table class="tb-r">
+        <thead>
+          <tr>
+            <th width="15%">建筑类别</th>
+            <th width="8%">对象</th>
+            <th width="35%">计算基准 (条件)</th>
+            <th width="10%">大便器</th>
+            <th width="10%">小便器</th>
+            <th width="10%">浴室</th>
+            <th width="10%">洗手盆</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="tr-s"><td rowspan="1">(1) 住宅建筑</td><td class="gy">通用</td><td class="tl">每 1 栋</td><td>1</td><td>-</td><td>1</td><td>-</td></tr>
+          <tr class="tr-s"><td rowspan="3">(2) 排屋/商业排屋</td><td class="gy" rowspan="3">通用</td><td class="tl">各层总面积 ≤ 200m²</td><td>1</td><td>-</td><td>-</td><td>-</td></tr>
+          <tr><td class="tl">各层总面积 > 200m²</td><td>2</td><td>1</td><td>1</td><td>-</td></tr>
+          <tr><td class="tl">高度 > 3层</td><td>2</td><td>1</td><td>1</td><td>-</td></tr>
+          <tr class="tr-s"><td rowspan="7">(3) 工厂</td><td class="gw">男</td><td class="tl">≤ 15人</td><td>1</td><td>1</td><td>1</td><td>1</td></tr>
+          <tr><td class="gp">女</td><td class="tl">≤ 15人</td><td>2</td><td>-</td><td>1</td><td>1</td></tr>
+          <tr><td class="gw">男</td><td class="tl">16 ~ 40人</td><td>2</td><td>2</td><td>2</td><td>2</td></tr>
+          <tr><td class="gp">女</td><td class="tl">16 ~ 40人</td><td>4</td><td>-</td><td>2</td><td>2</td></tr>
+          <tr><td class="gw">男</td><td class="tl">41 ~ 80人</td><td>3</td><td>3</td><td>3</td><td>3</td></tr>
+          <tr><td class="gp">女</td><td class="tl">41 ~ 80人</td><td>6</td><td>-</td><td>3</td><td>3</td></tr>
+          <tr><td class="gy">各自</td><td class="tl">> 80人 (每 +50人)</td><td>+1</td><td>+1 (男)</td><td>+1</td><td>+1</td></tr>
+          <tr class="tr-s"><td>(4) 酒店/临租</td><td class="gy">通用</td><td class="tl">每 1 间客房</td><td>1</td><td>-</td><td>1</td><td>1</td></tr>
+          <tr class="tr-s"><td>(5) 公寓</td><td class="gy">通用</td><td class="tl">每 1 套</td><td>1</td><td>-</td><td>1</td><td>1</td></tr>
+          <tr class="tr-s"><td>(6) 宿舍</td><td class="gy">通用</td><td class="tl">每 50m²</td><td>1</td><td>-</td><td>1</td><td>1</td></tr>
+          <tr class="tr-s"><td rowspan="2">(7) 会议厅/剧院</td><td class="gw">男</td><td class="tl" rowspan="2">每 200m² 或 每 100人 (取大值)</td><td>1</td><td>2</td><td>-</td><td>1</td></tr>
+          <tr><td class="gp">女</td><td>3</td><td>-</td><td>-</td><td>1</td></tr>
+          <tr class="tr-s"><td rowspan="4">(8) 教育机构</td><td class="gw" rowspan="2">男</td><td class="tl">≤ 500人 (每 50人)</td><td>1</td><td>1</td><td>-</td><td>1</td></tr>
+          <tr><td class="tl">> 500人 (超出部分 每 +100人)</td><td>+1</td><td>+1</td><td>-</td><td>+1</td></tr>
+          <tr><td class="gp" rowspan="2">女</td><td class="tl">≤ 500人 (每 50人)</td><td>2</td><td>-</td><td>-</td><td>1</td></tr>
+          <tr><td class="tl">> 500人 (超出部分 每 +100人)</td><td>+2</td><td>-</td><td>-</td><td>+1</td></tr>
+          <tr class="tr-s"><td rowspan="2">(9) 办公室</td><td class="gw">男</td><td class="tl" rowspan="2">每 300m²</td><td>1</td><td>2</td><td>-</td><td>1</td></tr>
+          <tr><td class="gp">女</td><td>3</td><td>-</td><td>-</td><td>1</td></tr>
+          <tr class="tr-s"><td rowspan="9">(10) 餐厅、饮食店</td><td class="gy">共用</td><td class="tl">面积 < 30m² 或 座位数 < 20 (取大值)</td><td>1</td><td>-</td><td>-</td><td>1</td></tr>
+          <tr><td class="gy">共用</td><td class="tl">30m² ≤ 面积 ≤ 45m² 或 20 ≤ 座位数 ≤ 30 (取大值)</td><td>1</td><td>1</td><td>-</td><td>1</td></tr>
+          <tr><td class="gw">男</td><td class="tl" rowspan="2">45m² < 面积 ≤ 75m² 或 31 ≤ 座位数 ≤ 50 (取大值)</td><td>1</td><td>1</td><td>-</td><td>1</td></tr>
+          <tr><td class="gp">女</td><td>2</td><td>-</td><td>-</td><td>1</td></tr>
+          <tr><td class="gw">男</td><td class="tl" rowspan="2">75m² < 面积 ≤ 105m² 或 51 ≤ 座位数 ≤ 70 (取大值)</td><td>2</td><td>2</td><td>-</td><td>2</td></tr>
+          <tr><td class="gp">女</td><td>4</td><td>-</td><td>-</td><td>2</td></tr>
+          <tr><td class="gw">男</td><td class="tl" rowspan="2">105m² < 面积 ≤ 150m² 或 71 ≤ 座位数 ≤ 100 (取大值)</td><td>3</td><td>3</td><td>-</td><td>3</td></tr>
+          <tr><td class="gp">女</td><td>6</td><td>-</td><td>-</td><td>3</td></tr>
+          <tr><td class="gy">各自</td><td class="tl">超出部分 (每 +150m² 或 每 +100座)</td><td>+1</td><td>+1 (男)</td><td>-</td><td>+1</td></tr>
+          <tr class="tr-s"><td rowspan="4">(11) 商业建筑</td><td class="gw">男</td><td class="tl" rowspan="2">每 200m² (适用于面积 ≤ 2000m²部分)</td><td>1</td><td>2</td><td>-</td><td>1</td></tr>
+          <tr><td class="gp">女</td><td>3</td><td>-</td><td>-</td><td>1</td></tr>
+          <tr><td class="gw">男</td><td class="tl" rowspan="2">> 2000m² (超出部分 每 +600m²)</td><td>+1</td><td>+2</td><td>-</td><td>+1</td></tr>
+          <tr><td class="gp">女</td><td>+2</td><td>-</td><td>-</td><td>+1</td></tr>
+          <tr class="tr-s"><td rowspan="2">(12) 仓储</td><td class="gw">男</td><td class="tl" rowspan="2">每 5000m²</td><td>1</td><td>1</td><td>-</td><td>1</td></tr>
+          <tr><td class="gp">女</td><td>2</td><td>-</td><td>-</td><td>1</td></tr>
+          <tr class="tr-s"><td rowspan="4">(13) 医疗机构</td><td class="gw">男</td><td class="tl" rowspan="2">门诊及公众区 (每 200m²)</td><td>2</td><td>2</td><td>-</td><td>1</td></tr>
+          <tr><td class="gp">女</td><td>4</td><td>-</td><td>-</td><td>1</td></tr>
+          <tr><td class="gy">通用</td><td class="tl">住院部 (每 5张病床)</td><td>1</td><td>1</td><td>1</td><td>1</td></tr>
+          <tr><td class="gy">特殊</td><td class="tl">手术室/ICU等专区</td><td colspan="4">按医疗法规定适宜配置</td></tr>
+          <tr class="tr-s"><td rowspan="2">(14) 娱乐场所</td><td class="gw">男</td><td class="tl" rowspan="2">每 200m²</td><td>1</td><td>2</td><td>-</td><td>1</td></tr>
+          <tr><td class="gp">女</td><td>3</td><td>-</td><td>-</td><td>1</td></tr>
+          <tr class="tr-s"><td rowspan="2">(15) 交通车站</td><td class="gw">男</td><td class="tl" rowspan="2">每 200m²</td><td>2</td><td>4</td><td>-</td><td>1</td></tr>
+          <tr><td class="gp">女</td><td>6</td><td>-</td><td>-</td><td>1</td></tr>
+          <tr class="tr-s"><td rowspan="2">(16) 公共停车楼</td><td class="gw">男</td><td class="tl" rowspan="2">每 1000m²</td><td>2</td><td>4</td><td>-</td><td>1</td></tr>
+          <tr><td class="gp">女</td><td>6</td><td>-</td><td>-</td><td>1</td></tr>
+          <tr class="tr-s"><td rowspan="2">(17) 室内体育场</td><td class="gw">男</td><td class="tl" rowspan="2">每 200m² 或 每 100人 (取大值)</td><td>1</td><td>2</td><td>-</td><td>1</td></tr>
+          <tr><td class="gp">女</td><td>3</td><td>-</td><td>-</td><td>1</td></tr>
+          <tr class="tr-s"><td rowspan="14">(18) 市场</td><td class="gw">男</td><td class="tl" rowspan="2">面积 ≤ 100m² 或 摊位数 ≤ 50摊 (取大值)</td><td>1</td><td>1</td><td>-</td><td rowspan="2">1 (共用)</td></tr>
+          <tr><td class="gp">女</td><td>2</td><td>-</td><td>-</td></tr>
+          <tr><td class="gw">男</td><td class="tl" rowspan="2">100m² < 面积 ≤ 200m² 或 50 < 摊位数 ≤ 100 (取大值)</td><td>2</td><td>2</td><td>-</td><td>1</td></tr>
+          <tr><td class="gp">女</td><td>4</td><td>-</td><td>-</td><td>1</td></tr>
+          <tr><td class="gw">男</td><td class="tl" rowspan="2">200m² < 面积 ≤ 400m² 或 100 < 摊位数 ≤ 200 (取大值)</td><td>3</td><td>3</td><td>-</td><td>1</td></tr>
+          <tr><td class="gp">女</td><td>6</td><td>-</td><td>-</td><td>1</td></tr>
+          <tr><td class="gw">男</td><td class="tl" rowspan="2">400m² < 面积 ≤ 600m² 或 200 < 摊位数 ≤ 300 (取大值)</td><td>4</td><td>4</td><td>-</td><td>2</td></tr>
+          <tr><td class="gp">女</td><td>8</td><td>-</td><td>-</td><td>2</td></tr>
+          <tr><td class="gw">男</td><td class="tl" rowspan="2">600m² < 面积 ≤ 1000m² หรือ 300 < 摊位数 ≤ 500 (取大值)</td><td>5</td><td>5</td><td>-</td><td>2</td></tr>
+          <tr><td class="gp">女</td><td>10</td><td>-</td><td>-</td><td>2</td></tr>
+          <tr><td class="gw">男</td><td class="tl" rowspan="2">1000m² < 面积 ≤ 2000m² หรือ 500 < 摊位数 ≤ 1000 (取大值)</td><td>7</td><td>7</td><td>-</td><td>3</td></tr>
+          <tr><td class="gp">女</td><td>14</td><td>-</td><td>-</td><td>3</td></tr>
+          <tr><td class="gy">各自</td><td class="tl">> 2000m² (每 +400m² หรือ 每 +200摊)</td><td>+1(男) <br>+2(女)</td><td>+1 (男)</td><td>-</td><td>-</td></tr>
+          <tr><td class="gy">通用</td><td class="tl">> 2000m² (每 +1000m² หรือ 每 +500摊)</td><td>-</td><td>-</td><td>-</td><td>+1</td></tr>
+          <tr class="tr-s"><td rowspan="6">(19) 加油/加气站</td><td class="gw">男</td><td class="tl" rowspan="2">机位数 ≤ 4台</td><td>1</td><td>1</td><td>1</td><td>1</td></tr>
+          <tr><td class="gp">女</td><td>2</td><td>-</td><td>1</td><td>1</td></tr>
+          <tr><td class="gw">男</td><td class="tl" rowspan="2">5 ≤ 机位数 ≤ 8台</td><td>2</td><td>2</td><td>1</td><td>2</td></tr>
+          <tr><td class="gp">女</td><td>4</td><td>-</td><td>1</td><td>2</td></tr>
+          <tr><td class="gw">男</td><td class="tl" rowspan="2">机位数 ≥ 9台</td><td>3</td><td>3</td><td>1</td><td>3</td></tr>
+          <tr><td class="gp">女</td><td>6</td><td>-</td><td>1</td><td>3</td></tr>
+          <tr class="tr-s"><td rowspan="7">(20) 临时建筑 (工棚等)</td><td class="gw">男</td><td class="tl">≤ 15人</td><td>1</td><td>-</td><td>1</td><td>1</td></tr>
+          <tr><td class="gp">女</td><td class="tl">≤ 15人</td><td>1</td><td>-</td><td>1</td><td>1</td></tr>
+          <tr><td class="gw">男</td><td class="tl">16 ~ 40人</td><td>2</td><td>-</td><td>2</td><td>1</td></tr>
+          <tr><td class="gp">女</td><td class="tl">16 ~ 40人</td><td>2</td><td>-</td><td>2</td><td>1</td></tr>
+          <tr><td class="gw">男</td><td class="tl">41 ~ 80人</td><td>3</td><td>-</td><td>3</td><td>1</td></tr>
+          <tr><td class="gp">女</td><td class="tl">41 ~ 80人</td><td>3</td><td>-</td><td>3</td><td>1</td></tr>
+          <tr><td class="gy">各自</td><td class="tl">> 80人 (每 +50人)</td><td>+1</td><td>-</td><td>+1</td><td>+1</td></tr>
+          <tr class="tr-s"><td rowspan="7">(21) 其他内勤建筑</td><td class="gw">男</td><td class="tl">≤ 15人</td><td>2</td><td>1</td><td>1</td><td>1</td></tr>
+          <tr><td class="gp">女</td><td class="tl">≤ 15人</td><td>3</td><td>-</td><td>1</td><td>1</td></tr>
+          <tr><td class="gw">男</td><td class="tl">16 ~ 40人</td><td>2</td><td>2</td><td>2</td><td>2</td></tr>
+          <tr><td class="gp">女</td><td class="tl">16 ~ 40人</td><td>4</td><td>-</td><td>2</td><td>2</td></tr>
+          <tr><td class="gw">男</td><td class="tl">41 ~ 80人</td><td>3</td><td>3</td><td>3</td><td>3</td></tr>
+          <tr><td class="gp">女</td><td class="tl">41 ~ 80人</td><td>6</td><td>-</td><td>3</td><td>3</td></tr>
+          <tr><td class="gy">各自</td><td class="tl">> 80人 (每 +50人)</td><td>+1</td><td>+1 (男)</td><td>+1</td><td>+1</td></tr>
+        </tbody>
+      </table>
     </div>
   </div>
 </div>
@@ -453,9 +469,22 @@ function tc(n,tiers,inc){
 }
 function N(txt, ref, type='') {
   let tc = type ? ` nw` : (ref ? '' : ''); 
-  if(type === 'b') tc = ' nb'; if(type === 'p') tc = ' np';
+  if(type === 'b') tc = ' nb'; if(type === 'p') tc = ' np'; if(type === 'err') tc = ' nerr';
   return `<div class="nt${tc}"><div class="nt-txt">${txt}</div>${ref?`<div class="rf">${ref}</div>`:''}</div>`;
 }
+const PDBox = (title, content, ref) => `
+<div style="background:#F8FAFC; border:1px dashed #CBD5E1; border-radius:8px; padding:16px; margin-top:16px;">
+  <div style="font-size:14px; font-weight:700; color:#475569; margin-bottom:8px; display:flex; align-items:center; gap:6px;">
+    <span style="font-size:16px;">🚧</span> ${title}
+  </div>
+  <div style="font-size:13px; color:#64748B; line-height:1.6; margin-bottom:12px; padding-left:26px;">
+    ${content}
+  </div>
+  <div style="font-size:12px; color:#94A3B8; border-top:1px dashed #E2E8F0; padding-top:12px; display:flex; justify-content:space-between; align-items:flex-start;">
+    <span>* 说明：此项相关法规并未录入完全，待后续版本完善。</span>
+    ${ref ? `<span class="rf" style="background:#E2E8F0; color:#64748B; box-shadow:none; margin-left:8px;">${ref}</span>` : ''}
+  </div>
+</div>`;
 
 /* ====== UI ====== */
 function updRadios(name) {
@@ -464,11 +493,14 @@ function updRadios(name) {
   });
 }
 function upd(){
-  document.querySelectorAll('.pl').forEach(p=>p.classList.toggle('on',p.querySelector('input').checked));
+  document.querySelectorAll('.pl').forEach(p=>{
+    const ipt = p.querySelector('input');
+    if(ipt) p.classList.toggle('on', ipt.checked);
+  });
   const fn=gFn();
-  $('xW').classList.toggle('hid',!fn.some(f=>['factory'].includes(f)));
-  $('xR').classList.toggle('hid',!fn.some(f=>['hotel'].includes(f)));
-  $('xS').classList.toggle('hid',!fn.some(f=>['assembly','restaurant'].includes(f)));
+  $('xW').style.display = fn.some(f=>['factory','office'].includes(f)) ? 'block' : 'none';
+  $('xR').style.display = fn.some(f=>['hotel','residential','dormitory'].includes(f)) ? 'block' : 'none';
+  $('xS').style.display = fn.some(f=>['assembly','restaurant'].includes(f)) ? 'block' : 'none';
 }
 function openP(){document.body.classList.add('po')}
 function closeP(){document.body.classList.remove('po')}
@@ -478,7 +510,7 @@ function rst(){
     const cb = p.querySelector('input[type=checkbox]');
     if(cb) { p.classList.remove('on'); cb.checked=false; }
   });
-  upd();$('res').classList.add('hid');$('ph').classList.remove('hid');
+  upd();$('resWrapper').classList.add('hid');$('ph').classList.remove('hid');
   document.body.classList.remove('hr','po');
 }
 function stab(id,el){
@@ -498,6 +530,8 @@ function calc(){
   const hasR=fn.includes('residential');
   const isPub=fn.some(f=>['office','commercial','hotel','hospital','assembly','department','restaurant'].includes(f));
   const avgF=FA>0?Math.round(A/FA):A;
+  const eiaAlert = (A >= 10000 || H >= 23 || RM >= 80);
+  
   let h='';
 
   /* === CLASSIFICATION === */
@@ -508,13 +542,14 @@ function calc(){
   if(!hi&&!xl&&!lg)tg+=`<span class="tg tgg">✅ 一般建筑</span>`;
   tg+=`<div style="margin-top:6px"><span class="tg tb2">${bkk?'曼谷':'外府'}</span>${ieat?'<span class="tg tv">IEAT</span>':''}</div>`;
   const rg=[];if(m33)rg.push('MR33');rg.push('MR39/63','MR55');if(bkk)rg.push('BMA2544');
+  
   h+=`<div class="rc bl-r"><h4>📌 建筑分类判定</h4>${tg}<hr class="sep">
-    <div style="font-size:12px;color:var(--t2)">依据：${rg.join(' · ')} ｜ FAR ${FAR.toFixed(2)}:1 ｜ ${H}m · ${FA}F${FB?'/B'+FB:''} ｜ ${A.toLocaleString()}m²</div></div>`;}
-
-  /* === DISCLAIMER (ADDED) === */
-  h+=`<div class="nt nb" style="margin-bottom: 16px; background: #e0f2fe; border-left-color: #0284c7; color: #0369a1; padding: 14px;">
-    <div class="nt-txt">💡 <b>温馨提示</b>：当前版本以建筑专业核心指标为主。结构、暖通、给排水、电气及电梯等专业板块仅提取了部分跨专业强制性条款，<b>并非完整合规结果</b>，详细技术要求请务必查阅各专业独立规范。</div>
-  </div>`;
+    <div style="font-size:12px;color:var(--t2)">依据：${rg.join(' · ')} ｜ FAR ${FAR.toFixed(2)}:1 ｜ ${H}m · ${FA}F${FB?'/B'+FB:''} ｜ ${A.toLocaleString()}m²</div>`;
+  
+  if(eiaAlert) {
+    h+= N('<b>🚨 EIA 环评审批</b>：本项目总面积≥10,000㎡，或高度≥23m，或客房/住宅户数≥80套，已触发环评红线，审批周期较长，请优先确认。','EIA 规定','err');
+  }
+  h+=`</div>`;}
 
   /* === TABS === */
   h+=`<div class="tabs">
@@ -528,12 +563,13 @@ function calc(){
 
   /* ======== TAB: ARCHITECTURE ======== */
   {let a='';
-  if(m33){const rr=A<=30000?10:18;const os=hasR?30:10;
+  const os=hasR?30:10; const bcr=100-os;
+  if(m33){const rr=A<=30000?10:18;
     a+=`<div class="rc bl-b"><h4>📐 总图与退让</h4><div class="rg">
       <div class="ri"><div class="n">≥${rr}m</div><div class="l">临路道路宽度要求</div></div>
       <div class="ri"><div class="n">≥12m</div><div class="l">地块临路边长要求</div></div>
-      <div class="ri ${S>0?(FAR<=10?'ok':'ng'):''}"><div class="n">${FAR.toFixed(2)}:1</div><div class="l">容积率 须≤10:1</div></div>
-      <div class="ri"><div class="n">≥${os}%</div><div class="l">空地率 ที่ว่าง</div></div>
+      <div class="ri ${S>0?(FAR<=10?'ok':'ng'):''}"><div class="n">${FAR.toFixed(2)}:1</div><div class="l">容积率 (FAR) 须≤10:1</div></div>
+      <div class="ri"><div class="n">≤${bcr}%</div><div class="l">建筑密度上限 (BCR)</div></div>
       <div class="ri"><div class="n">≥6.0m</div><div class="l">各向退让</div></div>
       <div class="ri"><div class="n">≥6.0m</div><div class="l">消防环道</div></div>
     </div>
@@ -656,16 +692,22 @@ function calc(){
     a+=`<div style="font-size:13px;display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px dotted var(--bd)"><span>${T[ty]?.nm||ty}</span><span><b style="color:var(--t1)">${pk}</b> 辆 <span style="color:var(--t3);font-size:11px;margin-left:4px">[${lb}]</span></span></div>`;
   });
   if(fn.length>1)a+=`<div style="font-size:14px;font-weight:700;text-align:right;margin-top:10px">合计 ≈ ${tPk} 辆</div>`;
+  a+= N('<b>坡道及车道</b>：直线坡度 ≤15%，曲线坡度 ≤12%，单/双行车道宽度需满足规范下限。','');
   a+= N(bkk?'依据曼谷条例 BMA ข้อ79 计算，实际以审图核定为准。':'依据 MR7 通用标准计算，实际以审图核定为准。','');
   if(ieat){const tr=S>0?Math.ceil(S/100):0; a+= N(`🌳 IEAT绿化附加要求：≈${tr}棵 (1棵/100m²用地)`,'','p');}
   a+=`</div>`;
-
+  
   if(m33&&isPub) a+= N('💡 <b>AED 预留</b>：高层/超大型公共建筑须预留 AED 安装位置。','MR33 ข้อ29/2','b');
   if(m33) a+= N('💡 <b>平面图公示</b>：首层须集中保管全楼各层平面图备查；每层电梯厅须张贴带有所有房间位置、消防栓、灭火器、逃生门和消防电梯标记的平面图。','MR33 ข้อ8ตรี','b');
+  
+  a += PDBox('无障碍设计 (部令 2548/2564)', '<b>残疾人车位</b>：每10-50个常规车位需配建1个无障碍车位。<br><b>无障碍设施</b>：需按建筑人数比例及对应面积标准配建无障碍卫生间。<br><b>坡道与电梯</b>：无障碍轮椅坡道坡度必须≤1:12，电梯门宽及语音播报具有硬性要求。', 'กฎกระทรวงฯ พ.ศ. 2548');
+  
   h+=`<div class="tp on" id="tp-ar">${a}</div>`;}
 
   /* ======== TAB: STRUCTURE ======== */
   {let s='';
+  s += PDBox('荷载与抗震 (MR 2566)', '<b>抗震设防</b>：按项目所在府/区划分抗震设防等级，需进行专项计算。<br><b>风荷载</b>：不同高度区段风压取值标准有明确要求，需依地区基准风速复核。', 'MR 2566');
+  
   if(m33){
     s+=`<div class="rc bl-s"><h4>🧱 防火构造</h4><div class="rg">
       <div class="ri"><div class="n">≥18cm</div><div class="l">防火墙(砖)</div></div>
@@ -699,12 +741,13 @@ function calc(){
          ${N('<b>自然通风</b>：使用房间须配备面积≥10%的可开启外窗，或设达标机械通风。<br><b>新风口</b>：距污染源≥5m且离地≥1.5m。<br><b>空调联动</b>：循环风量≥50m³/min须配烟感联动自停。','MR33 ข้อ9-10')}
          ${N('<b>ACH通风换气参考</b>：住宅卫生间2 · 公共卫生间4 · 地下车库4 · 办公/酒店7。','MR33 ข้อ9')}
          ${N('<b>深层地下室送风</b>：地下≥3层或深度≥7m的逃生楼梯必须配备保持≥3.86Pa正压送风系统且须确保持续运行。','MR33 ข้อ8','w')}
-         ${N('<b>节能提示</b>：高层/超大型建筑需另经 DEDE 工具验算 OTTV/RTTV/LPD 等节能限值。','DEDE','w')}
          </div>`;
   } else {
     hv+=`<div class="rc bl-o"><h4>❄️ 一般通风要求</h4>
     ${N('所有使用房间必须配备面积不少于其地面面积 10% 的可开启外窗用于自然通风，或设置满足 ACH 强制要求的机械排风系统；卫生间必须具备良好的自然或机械排气条件。','MR55 ข้อ19-21')}</div>`;
   }
+  hv += PDBox('建筑节能规范 (DEDE BEC)', '总面积 ≥2000㎡ 强制要求的外墙总传热值（OTTV）、屋顶传热值（RTTV）、照明功率密度（LPD）。', 'DEDE BEC');
+  
   h+=`<div class="tp" id="tp-hv">${hv}</div>`;}
 
   /* ======== TAB: PLUMBING ======== */
@@ -728,7 +771,7 @@ function calc(){
       <div class="ri"><div class="n">${sp}个</div><div class="l">室外消防接合器</div></div>
       <div class="ri"><div class="n">≥${ext}具/层</div><div class="l">手提灭火器</div></div>
     </div>
-    ${N('<b>自动灭火系统 (面积≥1万㎡或高≥23m)</b>：必须设置自动灭火系统(如喷淋)，需在火灾时自动启动，<b>并覆盖每一层所有区域</b>。设计文件须附每一层布置图及图例说明。','MR33 ข้อ20','w')}
+    ${N('<b>自动灭火系统布置 (MR33)</b>：必须在火灾时自动启动，<b>并覆盖每一层所有区域</b>。设计文件须附每一层布置图及图例说明。','MR33 ข้อ20','w')}
     ${N('<b>立管与水池</b>：须为内壁光滑金属管，工作压力≥1.2MPa（表压），外表涂红漆。每64m一个消火栓箱(25mm+65mm)，消防水池储量需支撑 '+flow+'L/s × 30min。','MR33 ข้อ18')}
     ${N('<b>灭火器</b>：每具容量≥4kg，每1000㎡布置，间距≤45m，安装高度(挂高)≤1.5m。','MR33 ข้อ19')}
     </div>`;
@@ -741,13 +784,16 @@ function calc(){
     ${N('<b>生活给水</b>：生活水箱必须≥高峰期2小时用水量，末端器具水压保证≥0.1MPa。','MR33 ข้อ36')}
     ${N('<b>检查井</b>：封闭管道排水须每隔≤8m及每个转弯处设检查井。','MR33 ข้อ34')}
     ${N('<b>日垃圾估算</b>：住宅按2.4L/人，非住宅按0.4L/m²（混合功能已分算叠加）。存放站容量≥日产×3倍。','MR33 ข้อ39/40')}
-    ${N('<b>污水处理</b>：化粪池距公共水体边缘必须≥10m，独立处理系统须保证水质达标后方可排放。','MR33 ข้อ32/MR39','b')}
     </div>`;
   } else {
     pl+=`<div class="rc bl-b"><h4>🚿 一般给排水与环保要求</h4>
     ${N('必须设置规范的化粪池或污水处理系统，化粪池距离公共水体边缘 ≥10m；建筑物雨水和生活污水管道必须分离。','MR55 / MR39')}</div>`;
   }
   if(fn.length>1) pl+= N('💡 <b>混合功能计算提示</b>：当前日垃圾量估算是基于建筑总面积/总人数。若为混合功能建筑，建议按各功能实际指标单独查算。','','b');
+  
+  pl += PDBox('消防工程标准 (EIT 3002)', '消防水池不应只用 MR33 的粗略算法，需按 EIT（照搬NFPA）的危险等级（Light/Ordinary/Extra Hazard）来确定喷淋水量和持续时间（如 60min 或 120min）。', 'EIT Standard 3002');
+  pl += PDBox('污水处理排放标准 (PCD)', '化粪池和污水处理站（STP）的BOD排放指标和处理池容量硬性算法。', 'PCD Wastewater');
+  
   h+=`<div class="tp" id="tp-pl">${pl}</div>`;}
 
   /* ======== TAB: ELECTRICAL ======== */
@@ -768,6 +814,8 @@ function calc(){
     el+=`<div class="rc bl-w"><h4>⚡ 一般电气照明</h4>
     ${N('居住及工作空间必须具备足够的基础照明强度；配电箱/配电板应设置在安全、干燥、易于操作及维护的位置。','MR55')}</div>`;
   }
+  el += PDBox('电气安装标准 (วสท. 2001-56)', '变压器室防火要求、电气竖井尺寸底线、以及目前非常重要的 EV 充电桩预留比例（曼谷新规趋势）。', 'วสท. 2001-56');
+  
   h+=`<div class="tp" id="tp-el">${el}</div>`;}
 
   /* ======== TAB: ELEVATOR ======== */
@@ -799,15 +847,19 @@ function calc(){
       ${N('当前建筑未达到 5 层，且非超大型/高层，法规层面无强制电梯配置要求。','')}</div>`;
     }
   }
+  
   h+=`<div class="tp" id="tp-lf">${lf}</div>`;}
 
   $('res').innerHTML=h;
   $('ph').classList.add('hid');
-  $('res').classList.remove('hid');
+  $('resWrapper').classList.remove('hid');
   
   document.body.classList.add('hr');
   closeP(); 
-  window.scrollTo({top:0, behavior:'smooth'});
+  
+  setTimeout(() => {
+    document.getElementById('resWrapper').scrollIntoView({behavior:'smooth',block:'start'});
+  }, 100);
 }
 </script>
 </body>
