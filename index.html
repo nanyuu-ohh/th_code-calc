@@ -118,6 +118,7 @@ input:checked + .slider:before { transform: translateX(18px); }
 .nt.nb { background: var(--c1l); color: #1e40af; } .nt.nb .rf { background: #bfdbfe; color: #1e40af; }
 .nt.np { background: var(--cpl); color: #5B21B6; border-left: 3px solid var(--cp); } .nt.np .rf { background: #E9D5FF; color: #5B21B6; } /* Purple for IEAT */
 .nt.nerr { background: #fef2f2; color: #b91c1c; border-left: 4px solid #ef4444; } .nt.nerr .rf { background: #fca5a5; color: #991b1b; }
+.nt.nfac { background: #ECFDF5; color: #065F46; border-left: 4px solid #10B981; } .nt.nfac .rf { background: #A7F3D0; color: #065F46; }
 
 /* tags */
 .tg { display: inline-block; padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; margin-right: 6px; margin-bottom: 6px; letter-spacing: 0.3px; }
@@ -326,6 +327,7 @@ input:checked + .slider:before { transform: translateX(18px); }
           <li><a href="https://asa.or.th/laws-and-regulations/cba/" target="_blank"><strong>กฎกระทรวง ฉบับที่ 33 / 50 / 69</strong>第 33 号部令：高层与特大型建筑消防与安全</a></li>
           <li><a href="https://asa.or.th/laws-and-regulations/cba/" target="_blank"><strong>กฎกระทรวง ฉบับที่ 55 (พ.ศ. 2543)</strong>第 55 号部令：建筑外部退让、间距及尺寸标准</a></li>
           <li><a href="https://asa.or.th/laws-and-regulations/cba/" target="_blank"><strong>กฎกระทรวง ฉบับที่ 39 / 63</strong>第 39/63 号部令：卫生间、照明、通风及应急设施</a></li>
+          <li><a href="https://www.diw.go.th/webdiw/law-fac/" target="_blank"><strong>พระราชบัญญัติโรงงาน / กฎกระทรวง ฉบับที่ 2</strong>泰国工厂法 (1992) 及第 2 号部级规定</a></li>
           <li><a href="https://asa.or.th/laws-and-regulations/cba/" target="_blank"><strong>กฎกระทรวง ฉบับที่ 7 / 41 / 64</strong>第 7 号部令：各类型建筑的停车位配置标准</a></li>
           <li><a href="https://asa.or.th/laws-and-regulations/cba/" target="_blank"><strong>ประกาศการนิคมอุตสาหกรรมแห่งประเทศไทย ที่ 103/2556</strong>IEAT 工业区土地开发与建筑控制规章</a></li>
           <li><a href="https://asa.or.th/laws-and-regulations/cba/" target="_blank"><strong>กฎกระทรวง กำหนดการออกแบบโครงสร้างอาคารฯ</strong>结构设计、抗震要求及材料标准 (2023更新)</a></li>
@@ -562,6 +564,7 @@ function calc(){
   const deepB = FB>=3 || DP>=7; 
   const bkk=gLoc()==='bkk',ieat=gIE(),FAR=S>0?A/S:0;
   const hasR=fn.includes('residential');
+  const isFac=fn.includes('factory');
   const isPub=fn.some(f=>['office','commercial','hotel','hospital','assembly','department','restaurant'].includes(f));
   const avgF=FA>0?Math.round(A/FA):A;
   const eiaAlert = (A >= 10000 || H >= 23 || RM >= 80);
@@ -577,6 +580,7 @@ function calc(){
   tg+=`<div style="margin-top:6px"><span class="tg tb2">${bkk?'曼谷':'外府'}</span>${ieat?'<span class="tg tv">IEAT 园区</span>':''}</div>`;
   const rg=[];if(m33)rg.push('MR33');rg.push('MR39/63','MR55');if(bkk)rg.push('BMA2544');
   if(ieat) rg.push('IEAT 103/2556');
+  if(isFac) rg.push('MR2(工厂法)');
   
   h+=`<div class="rc bl-r"><h4>📌 建筑分类判定</h4>${tg}<hr class="sep">
     <div style="font-size:12px;color:var(--t2)">依据：${rg.join(' · ')} ｜ FAR ${FAR.toFixed(2)}:1 ｜ ${H}m · ${FA}F${FB?'/B'+FB:''} ｜ ${A.toLocaleString()}m²</div>`;
@@ -669,7 +673,10 @@ function calc(){
   // 疏散与逃生
   a+=`<div class="rc bl-w"><h4>🚶 疏散与逃生距离</h4><div class="rg">
     <div class="ri"><div class="n">≤ 40m</div><div class="l">最远点至楼梯距离</div></div>`;
-  
+   
+  if(isFac) {
+  a+=`<div class="ri" style="border-color:#10B981"><div class="n" style="color:#059669">≥ 110cm</div><div class="l">厂房疏散门底线宽</div></div>`;
+}
   if(hi || xl){
     a+=`<div class="ri"><div class="n">≥ 2部</div><div class="l">直通地面消防梯</div></div>
         <div class="ri"><div class="n">≤ 60m</div><div class="l">相邻消防梯间距</div></div>`;
@@ -682,6 +689,9 @@ function calc(){
       <div class="ri"><div class="n">${hi ? '≤20/≥22' : '≤20/≥24'}</div><div class="l">踢面/踏面cm</div></div></div>`;
 
   a+= N('<b>一般疏散距离</b>：从楼层最远点到楼梯的距离不得超过 40 米。','MR55 ข้อ24');
+  if(isFac) {
+  a+= N('🏭 <b>工厂法疏散门特规</b>：厂房内疏散门宽必须 ≥110cm，高 ≥200cm；如果单扇门疏散人数 >50人，超过的部分每增加 1 人，该门宽需成比例增加至少 2cm。','MR2(工厂法) ข้อ5(3)', 'fac');
+}
   if(hi || xl) a+= N('<b>高层/超大型疏散</b>：相邻两部逃生楼梯沿走道步行距离不得超过 60 米；防火门须宽≥90cm高≥190cm、外推自闭、无门槛。全楼人员须满足1h内撤出验算。','MR33 ข้อ22/27');
   if(bkk) a+= N('<b>尽端走道限制</b>：从走道尽头最末端房间的门，到疏散楼梯门的距离不得超过 10 米。','BMA 2544 ข้อ44','w');
   if(hi) a+= N('<b>屋顶避难</b>：≥10×10m 净空，且通达各消防楼梯。梯间送风≥3.86Pa 或外窗≥1.4m²/层。禁止使用螺旋楼梯。','MR33 ข้อ25/29');
@@ -797,6 +807,17 @@ function calc(){
     a+= N(`<b>🟣 IEAT 绿化附加要求</b>：≥ ${tr} 棵 (即 1棵 / 1莱，1莱=1600m²)`,'IEAT 第27条','p');
   }
   a+=`</div>`;
+  if(isFac){
+  a+=`<div class="rc" style="border-left: 4px solid #10B981;"><h4>🏭 工厂法空间特规 (MR 2 B.E.2535)</h4><div class="rg">
+    <div class="ri"><div class="n" style="color:#059669">≥ 3.0m</div><div class="l">基础净高底线</div></div>
+    <div class="ri"><div class="n" style="color:#059669">≥ 3.0m²</div><div class="l">单人操作面积</div></div>
+    <div class="ri"><div class="n" style="color:#059669">≥ 1.5m</div><div class="l">防跌落栏杆高差</div></div>
+  </div>
+  ${N('📏 <b>室内净高</b>：车间平均净高不得低于 3.0m；若配有空调或良好机械通风，底线可放宽至 2.30m。','MR2 ข้อ5(5)','fac')}
+  ${N('🧑‍🏭 <b>操作空间</b>：工作区平均每名工人占地（含桌椅、机器、材料移动范围）不得少于 3.0 平方米。','MR2 ข้อ5(7)','fac')}
+  ${N('🚧 <b>防跌落设施</b>：高于地面 1.50m 及以上的楼梯和操作通道，必须设置稳固的防护栏杆。','MR2 ข้อ5(4)','fac')}
+  </div>`;
+}
   
   if(m33&&isPub) a+= N('💡 <b>AED 预留</b>：高层/超大型公共建筑须预留 AED 安装位置。','MR33 ข้อ29/2','b');
   if(m33) a+= N('💡 <b>平面图公示</b>：首层须集中保管全楼各层平面图备查；每层电梯厅须张贴带有所有房间位置、消防栓、灭火器、逃生门和消防电梯标记的平面图。','MR33 ข้อ8ตรี','b');
