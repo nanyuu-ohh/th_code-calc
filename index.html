@@ -215,7 +215,12 @@ input:checked + .slider:before { transform: translateX(18px); }
 }
 .modal-close:hover { color: var(--cr); }
 .form-group { margin-bottom: 15px; }
-.form-group label { display: block; margin-bottom: 5px; font-weight: bold; color: var(--t2); font-size: 0.9em;}
+/* 仅对外层 label 生效，防止挤压复选框 */
+.form-group > label { display: block; margin-bottom: 5px; font-weight: bold; color: var(--t2); font-size: 0.9em;}
+/* 确保复选框和文字在一行同行显示 */
+.form-group-inline { display: flex; align-items: center; gap: 6px; margin-top: 8px; }
+.form-group-inline input[type="checkbox"] { width: auto; margin: 0; cursor: pointer; }
+.form-group-inline label { display: inline-block; font-size: 0.85em; color: var(--t2); margin: 0; font-weight: normal; cursor: pointer;} { display: block; margin-bottom: 5px; font-weight: bold; color: var(--t2); font-size: 0.9em;}
 .form-group input[type="number"] { 
   width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; font-size:1em;
 }
@@ -260,6 +265,9 @@ input:checked + .slider:before { transform: translateX(18px); }
         <input type="number" id="modal-stairs" value="2" min="2">
         <div style="font-size: 0.8em; color: var(--cw); margin-top: 5px;">* 工业部《工厂法》底线要求：紧急出口数量≥2个</div>
       </div>
+      <!-- 增加这行红色的行内错误提示框，用来替代失效的 alert -->
+      <div id="modal-error" style="color:#DC2626; background:#FEE2E2; padding:8px; border-radius:4px; font-size:0.9em; margin-bottom:10px; display:none;"></div>
+      
       <button class="calc-btn-sub" onclick="calcFactoryEvac()">进行深度计算</button>
 
       <div id="modal-results" class="result-box" style="display: none;">
@@ -1068,6 +1076,24 @@ function openEvacModal() {
   const F = parseInt(document.getElementById('inF').value) || 1;
   const H = parseFloat(document.getElementById('inH').value) || 0;
   
+  const singleFloorArea = F > 0 ? (FA / F) : FA;
+  const isHighRise = H >= 23;
+  const isExtraLarge = FA >= 10000;
+
+  evacCtx = { area: singleFloorArea, height: H, isHighRise: isHighRise, isExtraLarge: isExtraLarge };
+
+  // 初始化弹窗数据
+  document.getElementById('modal-area').value = singleFloorArea.toFixed(1);
+  document.getElementById('modal-people').value = '';
+  document.getElementById('modal-auto-people').checked = false;
+  document.getElementById('modal-results').style.display = 'none';
+  
+  // 【新增的】：每次打开弹窗时，把上次可能残留的红字报错隐藏掉
+  document.getElementById('modal-error').style.display = 'none'; 
+  
+  document.getElementById('factoryEvacModal').style.display = 'flex';
+}
+  
   // 简易单层面积估算
   const singleFloorArea = F > 0 ? (FA / F) : FA;
   
@@ -1103,12 +1129,26 @@ function toggleAutoPeople() {
 function calcFactoryEvac() {
   const people = parseInt(document.getElementById('modal-people').value) || 0;
   const stairs = parseInt(document.getElementById('modal-stairs').value) || 0;
+  
+  const errMsg = document.getElementById('modal-error');
+  const resBox = document.getElementById('modal-results');
+  
+  errMsg.style.display = 'none';
+  resBox.style.display = 'none';
 
-  if (people <= 0) { alert('请输入有效的疏散人数！'); return; }
-  if (stairs < 2) { alert('法规底线：工厂紧急出口数量不得少于2个！'); return; }
+  // 【新增的】：用红字提示替代失效的 alert
+  if (people <= 0) { 
+    errMsg.innerText = '⚠️ 请输入有效的疏散人数！'; 
+    errMsg.style.display = 'block'; 
+    return; 
+  }
+  if (stairs < 2) { 
+    errMsg.innerText = '⚠️ 法规底线：工厂紧急出口数量不得少于2个！'; 
+    errMsg.style.display = 'block'; 
+    return; 
+  }
 
   // 1. 根据《工厂法》计算单层“总”疏散宽度要求
-  // 基础 110cm，超过50人的部分每人增加 2cm
   let factoryTotalWidthReq = 110;
   if (people > 50) {
     factoryTotalWidthReq += (people - 50) * 2;
@@ -1117,14 +1157,11 @@ function calcFactoryEvac() {
   // 计算每部楼梯/门分摊到的目标宽度 (进位取整)
   let widthPerStair = Math.ceil(factoryTotalWidthReq / stairs);
 
-  // 2. 结合建筑法(MR33/MR55)与工厂法绝对底线进行"就高判定"
-  // 建筑法底线：高层/超大=90cm，普通=80cm
+  // 2. 结合建筑法与工厂法绝对底线进行"就高判定"
   let minBldgWidth = (evacCtx.isHighRise || evacCtx.isExtraLarge) ? 90 : 80;
-  // 工厂法单门绝对底线：110cm
-  // 最终净宽：取 (算术分摊值, 建筑法底线, 工厂法底线) 三者中的最大值
   let finalWidth = Math.max(widthPerStair, minBldgWidth, 110);
 
-  // 3. 判定疏散楼梯是否强制上屋面 (MR33 第29条)
+  // 3. 判定疏散楼梯是否强制上屋面
   let roofHtml = '';
   if (evacCtx.isHighRise) {
     roofHtml = `
@@ -1176,8 +1213,8 @@ function calcFactoryEvac() {
     ${roofHtml}
   `;
   
-  document.getElementById('modal-results').innerHTML = resHtml;
-  document.getElementById('modal-results').style.display = 'block';
+  resBox.innerHTML = resHtml;
+  resBox.style.display = 'block';
 }
 </script>
 </body>
