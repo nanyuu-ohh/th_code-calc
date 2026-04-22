@@ -196,8 +196,77 @@ input:checked + .slider:before { transform: translateX(18px); }
   body.po .ov { display: block; }
 }
 @media(max-width: 500px) { .r2 { grid-template-columns: 1fr; } .wr { flex-direction: column; } .rg { grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); } }
+/* === 工厂疏散深度计算弹窗样式 === */
+.modal-overlay {
+  display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+  background: rgba(0,0,0,0.5); z-index: 9999; justify-content: center; align-items: center;
+}
+.modal-content {
+  background: #fff; padding: 20px; border-radius: 8px; width: 90%; max-width: 450px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.2); max-height: 90vh; overflow-y: auto;
+}
+.modal-header { 
+  font-size: 1.1em; font-weight: bold; margin-bottom: 15px; 
+  border-bottom: 1px solid #eee; padding-bottom: 10px; 
+  display: flex; justify-content: space-between; align-items: center; 
+}
+.modal-close { 
+  cursor: pointer; color: #888; font-size: 1.5em; line-height: 1; 
+}
+.modal-close:hover { color: var(--cr); }
+.form-group { margin-bottom: 15px; }
+.form-group label { display: block; margin-bottom: 5px; font-weight: bold; color: var(--t2); font-size: 0.9em;}
+.form-group input[type="number"] { 
+  width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; font-size:1em;
+}
+.form-group input[readonly] { background: var(--bg); color: var(--t3); cursor: not-allowed; }
+.form-group-inline { display: flex; align-items: center; gap: 8px; margin-top: 8px; font-size: 0.85em; color: var(--t2); }
+.calc-btn-sub { 
+  background: var(--c1); color: white; padding: 12px; border: none; 
+  border-radius: 6px; cursor: pointer; width: 100%; font-size: 1em; font-weight: bold; margin-top: 10px;
+}
+.calc-btn-sub:hover { background: var(--c1d); }
+.result-box { 
+  margin-top: 20px; background: var(--bg2); padding: 15px; 
+  border-radius: 6px; border: 1px solid #e5e7eb; font-size: 0.95em;
+}
+/* 可点击卡片的交互效果 */
+.clickable-card { cursor: pointer; transition: all 0.2s; position: relative;}
+.clickable-card:hover { transform: translateY(-2px); box-shadow: 0 4px 6px rgba(37,99,235,0.2); border-color: var(--c1); }
+.clickable-card::after { content: "👆 点击深算"; position: absolute; right: 5px; bottom: 5px; font-size: 0.7em; color: var(--c1); opacity: 0.8;}
 </style>
 </head>
+<div id="factoryEvacModal" class="modal-overlay">
+  <div class="modal-content">
+    <div class="modal-header">
+      <span>🏭 厂房疏散深度计算 (二次评估)</span>
+      <span class="modal-close" onclick="closeEvacModal()">&times;</span>
+    </div>
+    <div class="modal-body">
+      <div class="form-group">
+        <label>单层建筑面积 (平方米) - 来自主界面</label>
+        <input type="number" id="modal-area" readonly>
+      </div>
+      <div class="form-group">
+        <label>每层计划/实际工作人数 (人)</label>
+        <input type="number" id="modal-people" placeholder="输入该层最大工作人数">
+        <div class="form-group-inline">
+          <input type="checkbox" id="modal-auto-people" onchange="toggleAutoPeople()">
+          <label for="modal-auto-people" style="margin:0; cursor:pointer;">按面积自动估算 (9.3㎡/人，依EIT标准)</label>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>该层规划的疏散出口/楼梯数量 (部)</label>
+        <input type="number" id="modal-stairs" value="2" min="2">
+        <div style="font-size: 0.8em; color: var(--cw); margin-top: 5px;">* 工业部《工厂法》底线要求：紧急出口数量≥2个</div>
+      </div>
+      <button class="calc-btn-sub" onclick="calcFactoryEvac()">进行深度计算</button>
+
+      <div id="modal-results" class="result-box" style="display: none;">
+        </div>
+    </div>
+  </div>
+</div>
 <body>
 
 <div class="hdr">
@@ -670,13 +739,16 @@ function calc(){
   }
   a+=`</div>`;
   
-  // 疏散与逃生
+// 疏散与逃生
   a+=`<div class="rc bl-w"><h4>🚶 疏散与逃生距离</h4><div class="rg">
     <div class="ri"><div class="n">≤ 40m</div><div class="l">最远点至楼梯距离</div></div>`;
    
   if(isFac) {
-  a+=`<div class="ri" style="border-color:#10B981"><div class="n" style="color:#059669">≥ 110cm</div><div class="l">厂房疏散门底线宽</div></div>`;
-}
+    // 替换为这行：增加了 clickable-card 类、onclick 事件，以及一个浅绿色的背景以提示可点击
+    a+=`<div class="ri clickable-card" onclick="openEvacModal()" style="border-color:#10B981; background:#DCFCE7;">
+          <div class="n" style="color:#059669">≥ 110cm</div><div class="l">厂房疏散门底线宽</div>
+        </div>`;
+  }
   if(hi || xl){
     a+=`<div class="ri"><div class="n">≥ 2部</div><div class="l">直通地面消防梯</div></div>
         <div class="ri"><div class="n">≤ 60m</div><div class="l">相邻消防梯间距</div></div>`;
@@ -986,6 +1058,126 @@ function calc(){
   setTimeout(() => {
     document.getElementById('resWrapper').scrollIntoView({behavior:'smooth',block:'start'});
   }, 100);
+}
+// === 工厂疏散深度计算逻辑 ===
+let evacCtx = { area: 0, height: 0, isHighRise: false, isExtraLarge: false };
+
+function openEvacModal() {
+  // 抓取主界面的核心数据
+  const FA = parseFloat(document.getElementById('inFA').value) || 0;
+  const F = parseInt(document.getElementById('inF').value) || 1;
+  const H = parseFloat(document.getElementById('inH').value) || 0;
+  
+  // 简易单层面积估算
+  const singleFloorArea = F > 0 ? (FA / F) : FA;
+  
+  // 判定是否为高层或超大型 (依据 MR33)
+  const isHighRise = H >= 23;
+  const isExtraLarge = FA >= 10000;
+
+  evacCtx = { area: singleFloorArea, height: H, isHighRise: isHighRise, isExtraLarge: isExtraLarge };
+
+  // 初始化弹窗数据
+  document.getElementById('modal-area').value = singleFloorArea.toFixed(1);
+  document.getElementById('modal-people').value = '';
+  document.getElementById('modal-auto-people').checked = false;
+  document.getElementById('modal-results').style.display = 'none';
+  document.getElementById('factoryEvacModal').style.display = 'flex';
+}
+
+function closeEvacModal() {
+  document.getElementById('factoryEvacModal').style.display = 'none';
+}
+
+function toggleAutoPeople() {
+  const isAuto = document.getElementById('modal-auto-people').checked;
+  const input = document.getElementById('modal-people');
+  if (isAuto) {
+    const area = parseFloat(document.getElementById('modal-area').value) || 0;
+    input.value = Math.ceil(area / 9.3); // 依据 9.3平米/人
+  } else {
+    input.value = '';
+  }
+}
+
+function calcFactoryEvac() {
+  const people = parseInt(document.getElementById('modal-people').value) || 0;
+  const stairs = parseInt(document.getElementById('modal-stairs').value) || 0;
+
+  if (people <= 0) { alert('请输入有效的疏散人数！'); return; }
+  if (stairs < 2) { alert('法规底线：工厂紧急出口数量不得少于2个！'); return; }
+
+  // 1. 根据《工厂法》计算单层“总”疏散宽度要求
+  // 基础 110cm，超过50人的部分每人增加 2cm
+  let factoryTotalWidthReq = 110;
+  if (people > 50) {
+    factoryTotalWidthReq += (people - 50) * 2;
+  }
+
+  // 计算每部楼梯/门分摊到的目标宽度 (进位取整)
+  let widthPerStair = Math.ceil(factoryTotalWidthReq / stairs);
+
+  // 2. 结合建筑法(MR33/MR55)与工厂法绝对底线进行"就高判定"
+  // 建筑法底线：高层/超大=90cm，普通=80cm
+  let minBldgWidth = (evacCtx.isHighRise || evacCtx.isExtraLarge) ? 90 : 80;
+  // 工厂法单门绝对底线：110cm
+  // 最终净宽：取 (算术分摊值, 建筑法底线, 工厂法底线) 三者中的最大值
+  let finalWidth = Math.max(widthPerStair, minBldgWidth, 110);
+
+  // 3. 判定疏散楼梯是否强制上屋面 (MR33 第29条)
+  let roofHtml = '';
+  if (evacCtx.isHighRise) {
+    roofHtml = `
+      <div style="margin-top:10px; padding:10px; background:var(--crl); border-left:4px solid var(--cr); border-radius:4px;">
+        <div style="color:var(--cr); font-weight:bold; margin-bottom:4px;">🚨 强制直通屋面要求 (MR33 高层条款)</div>
+        <div style="color:var(--t1); font-size:0.9em;">本项目高度≥23米，属高层建筑。依据第33号部级法规，<b>必须采用平屋顶</b>，保留至少 10×10米的空中疏散救援空地，且<b>所有疏散楼梯必须直通屋面</b>。</div>
+      </div>`;
+  } else if (evacCtx.isExtraLarge) {
+    roofHtml = `
+      <div style="margin-top:10px; padding:10px; background:var(--cgl); border-left:4px solid var(--cg); border-radius:4px;">
+        <div style="color:var(--cg); font-weight:bold; margin-bottom:4px;">✅ 无屋面强制要求 (超大非高层)</div>
+        <div style="color:var(--t1); font-size:0.9em;">本项目面积≥1万㎡，但高度<23米。MR33仅要求消防系统，<b>不强制要求</b>疏散楼梯通达屋顶，亦不强制要求平屋顶。</div>
+      </div>`;
+  } else {
+    roofHtml = `
+      <div style="margin-top:10px; padding:10px; background:#f3f4f6; border-left:4px solid var(--t3); border-radius:4px;">
+        <div style="color:var(--t2); font-weight:bold; margin-bottom:4px;">ℹ️ 常规建筑消防</div>
+        <div style="color:var(--t1); font-size:0.9em;">常规厂房，无强制通达屋面的法规要求。</div>
+      </div>`;
+  }
+
+  // 4. 渲染结果
+  const resHtml = `
+    <h4 style="margin-top:0; color:var(--c1); border-bottom:1px solid #eee; padding-bottom:5px;">📋 评估结果 (单层)</h4>
+    <div style="display:flex; justify-content:space-between; font-size:0.9em; margin-bottom:10px;">
+      <span>疏散人数：<b>${people}</b> 人</span>
+      <span>出口数量：<b>${stairs}</b> 个</span>
+    </div>
+    
+    <div style="background:#fff; border:1px solid var(--c1l); border-radius:4px; padding:10px; margin-bottom:10px;">
+      <div style="display:flex; justify-content:space-between; margin-bottom:8px;">
+        <span style="color:var(--t2);">🚪 疏散门净宽底线：</span>
+        <span style="color:var(--c1); font-weight:bold; font-size:1.1em;">≥ ${finalWidth} cm</span>
+      </div>
+      <div style="display:flex; justify-content:space-between; margin-bottom:8px;">
+        <span style="color:var(--t2);">🚶 走道净宽底线：</span>
+        <span style="color:var(--c1); font-weight:bold; font-size:1.1em;">≥ ${finalWidth} cm</span>
+      </div>
+      <div style="display:flex; justify-content:space-between;">
+        <span style="color:var(--t2);">🪜 楼梯净宽底线：</span>
+        <span style="color:var(--c1); font-weight:bold; font-size:1.1em;">≥ ${finalWidth} cm</span>
+      </div>
+    </div>
+    
+    <div style="font-size: 0.8em; color: var(--t3); line-height:1.4;">
+      * 依据泰国《工厂法》第2号规章：基础110cm，超50人部分+2cm/人。<br>
+      * 最终要求已自动与内政部《建筑法》(80cm/90cm)对比，采取了“就高标准”原则。
+    </div>
+    ${roofHtml}
+  `;
+  
+  document.getElementById('modal-results').innerHTML = resHtml;
+  document.getElementById('modal-results').style.display = 'block';
 }
 </script>
 </body>
