@@ -8,42 +8,37 @@
 </head>
 <body>
 
-<div id="factoryEvacModal" class="modal-overlay">
-  <div class="modal-content">
-    <div class="modal-header">
-      <span>🏭 厂房疏散深度计算 (二次评估)</span>
-      <span class="modal-close" onclick="closeEvacModal()">&times;</span>
+<div class="fac-modal-overlay" id="facEvacModal">
+  <div class="fac-modal-content">
+    <div class="fac-modal-header">
+      <h3 style="margin:0; font-size:16px; color:#0F172A;">🏭 厂房疏散深度计算</h3>
+      <button onclick="closeFacModal()" style="background:none; border:none; font-size:24px; color:#64748B; cursor:pointer;">&times;</button>
     </div>
-    <div class="modal-body">
-      <div class="form-group">
-        <label>单层建筑面积</label>
-        <div class="unit-wrap">
-          <input type="number" id="modal-area" readonly>
-          <span class="u">㎡</span>
+    
+    <div class="fac-modal-body">
+      <div class="fac-modal-inputs">
+        <div class="fg" style="margin:0">
+          <label>本层最大同时使用人数</label>
+          <div class="unit-wrap"><input type="number" id="fac_in_people" value=""><span class="u">人</span></div>
+          <div style="font-size:11px; color:#94A3B8; margin-top:4px; line-height:1.4;">* 请按人员最密集的“最不利楼层”进行修正填报</div>
+        </div>
+        <div class="fg" style="margin:0">
+          <label>疏散出口数量</label>
+          <div class="unit-wrap"><input type="number" id="fac_in_exits" value="2"><span class="u">个</span></div>
+        </div>
+        <div style="grid-column: 1 / -1; margin-top: 4px;">
+          <button class="btn bp" id="facRunBtn" style="width:100%; height:40px; border-radius:6px;" onclick="runFacModalCalc()">执行测算</button>
         </div>
       </div>
-      <div class="form-group">
-        <label>每层计划/实际工作人数</label>
-        <div class="unit-wrap">
-          <input type="number" id="modal-people" placeholder="如 200">
-          <span class="u">人</span>
-        </div>
-        <div class="form-group-inline">
-          <input type="checkbox" id="modal-auto-people" onchange="toggleAutoPeople()">
-          <label for="modal-auto-people">按面积自动估算 (9.3㎡/人，依EIT标准)</label>
-        </div>
+
+      <div id="fac-modal-results" style="display:none;">
+        <div id="fac-sec-result" class="fac-res-section"></div> 
+        <div id="fac-sec-door" class="fac-res-section"></div>   
+        <div id="fac-sec-stairs" class="fac-res-section"></div> 
+        <div id="fac-sec-plan" class="fac-res-section"></div>   
+        <div id="fac-sec-const" class="fac-res-section"></div>  
+        <div id="fac-sec-mep" class="fac-res-section"></div>    
       </div>
-      <div class="form-group">
-        <label>该层规划的疏散出口/楼梯数量</label>
-        <div class="unit-wrap">
-          <input type="number" id="modal-stairs" value="2" min="2">
-          <span class="u">部</span>
-        </div>
-        <div style="font-size:.8em;color:var(--cw);margin-top:5px;">* 工业部《工厂法》底线要求：紧急出口数量≥2个</div>
-      </div>
-      <div id="modal-error" style="color:#DC2626;background:#FEE2E2;padding:8px;border-radius:4px;font-size:.9em;margin-bottom:10px;display:none;"></div>
-      <button class="calc-btn-sub" onclick="calcFactoryEvac()">进行深度计算</button>
-      <div id="modal-results" class="result-box" style="display:none;"></div>
     </div>
   </div>
 </div>
@@ -51,7 +46,7 @@
 <div class="hdr">
   <h1>🇹🇭 泰国建筑设计指标速查 <span class="beta-badge">Beta</span></h1>
   <div class="sub">
-    Thai Building Code · Pre-Design Quick Check V0.7.0<br>
+    Thai Building Code · Pre-Design Quick Check V0.8.0<br>
     📅 数据截至：2026-04-21<br>
     ⚠️ 本工具仅作设计前阶段概算，具体指标需自行核对最新原文。
   </div>
@@ -192,16 +187,8 @@
       <div class="cp-bd" id="resLawBd" style="text-align:left;margin-top:16px;box-shadow:none;">
         <ul class="law-list" style="padding:0;">
           <li><a href="https://asa.or.th/laws-and-regulations/cba/" target="_blank"><strong>พระราชบัญญัติควบคุมอาคาร พ.ศ. 2522</strong>建筑控制法 (1979) 及历届修正版</a></li>
-          <li><a href="https://asa.or.th/laws-and-regulations/cba/" target="_blank"><strong>กฎกระทรวง ฉบับที่ 33 / 50 / 69</strong>第 33 号部令：高层与特大型建筑消防与安全</a></li>
-          <li><a href="https://asa.or.th/laws-and-regulations/cba/" target="_blank"><strong>กฎกระทรวง ฉบับที่ 55 (พ.ศ. 2543)</strong>第 55 号部令：建筑外部退让、间距及尺寸标准</a></li>
-          <li><a href="https://asa.or.th/laws-and-regulations/cba/" target="_blank"><strong>กฎกระทรวง ฉบับที่ 39 / 63</strong>第 39/63 号部令：卫生间、照明、通风及应急设施</a></li>
-          <li><a href="https://www.diw.go.th/webdiw/law-fac/" target="_blank"><strong>พระราชบัญญัติโรงงาน / กฎกระทรวง ฉบับที่ 2</strong>泰国工厂法 (1992) 及第 2 号部级规定</a></li>
-          <li><a href="https://asa.or.th/laws-and-regulations/cba/" target="_blank"><strong>กฎกระทรวง ฉบับที่ 7 / 41 / 64</strong>第 7 号部令：各类型建筑的停车位配置标准</a></li>
-          <li><a href="https://asa.or.th/laws-and-regulations/cba/" target="_blank"><strong>ประกาศการนิคมอุตสาหกรรมแห่งประเทศไทย ที่ 103/2556</strong>IEAT 工业区土地开发与建筑控制规章</a></li>
-          <li><a href="https://asa.or.th/laws-and-regulations/cba/" target="_blank"><strong>กฎกระทรวง กำหนดการออกแบบโครงสร้างอาคารฯ</strong>结构设计、抗震要求及材料标准 (2023更新)</a></li>
-          <li><a href="https://asa.or.th/laws-and-regulations/cba/" target="_blank"><strong>กฎกระทรวง ฉบับที่ 44 / 51 / 71</strong>第 44 号部令：排水、排污及废弃物处理系统</a></li>
-          <li><a href="https://asa.or.th/laws-and-regulations/cba/" target="_blank"><strong>กฎกระทรวง กำหนดสิ่งอำนวยความสะดวกในอาคารฯ</strong>建筑无障碍设施设计规范 (老弱病残人士适用)</a></li>
-          <li><a href="https://asa.or.th/laws-and-regulations/cba/" target="_blank"><strong>ข้อบัญญัติกรุงเทพมหานคร เรื่อง ควบคุมอาคาร พ.ศ. 2544</strong>曼谷市建筑控制地方法规 (2001)</a></li>
+          <li><a href="https://asa.or.th/laws-and-regulations/mr/" target="_blank"><strong>Ministerial Regulations</strong> 部级法规 / Ministerial Regulations 检索入口</a></li>
+          <li><a href="https://www.ieat.go.th/" target="_blank"><strong>IEAT</strong> 泰国工业园区管理局资料入口</a></li>
         </ul>
       </div>
     </div>
@@ -209,43 +196,32 @@
 </div>
 </div>
 
-<div class="ov" id="ov" onclick="closeP()"></div>
-<button class="fab" id="fab" onclick="openP()">→</button>
+<div class="ov" onclick="closeP()"></div>
+<button class="fab" onclick="openP()">☰</button>
 
 <div class="modal-ov" id="mr63Modal">
-  <div class="modal-cd">
-    <div class="modal-hdr">
-      <h3>📄 MR63 洁具标准数据自查</h3>
-      <button class="modal-close" onclick="document.getElementById('mr63Modal').classList.remove('show')">×</button>
+  <div class="modal" style="background:#fff;width:92%;max-width:980px;max-height:88vh;border-radius:12px;overflow:hidden;box-shadow:0 24px 48px rgba(0,0,0,.25);display:flex;flex-direction:column;">
+    <div style="padding:16px 20px;border-bottom:1px solid var(--bd);display:flex;align-items:center;justify-content:space-between;background:var(--bg2);">
+      <h3 style="font-size:16px;margin:0;color:var(--t1);">📄 MR63 洁具标准数据自查</h3>
+      <button onclick="document.getElementById('mr63Modal').classList.remove('show')" style="border:none;background:transparent;font-size:24px;line-height:1;cursor:pointer;color:var(--t3);">&times;</button>
     </div>
-    <div class="modal-bd">
-      <table class="tb-r" id="mr63-table">
+    <div style="padding:18px;overflow:auto;">
+      <table class="tb-r" style="width:100%;border-collapse:collapse;font-size:12px;">
         <thead>
           <tr>
-            <th width="15%">建筑类别</th>
-            <th width="8%">对象</th>
-            <th width="35%">计算基准 (条件)</th>
-            <th width="10%">大便器</th>
-            <th width="10%">小便器</th>
-            <th width="10%">浴室</th>
-            <th width="10%">洗手盆</th>
+            <th>类别</th><th>性别</th><th>条件</th><th>大便器</th><th>小便器</th><th>浴室</th><th>洗手盆</th>
           </tr>
         </thead>
-        <tbody id="mr63-tbody">
-          </tbody>
+        <tbody id="mr63-tbody"></tbody>
       </table>
     </div>
   </div>
 </div>
 
-<div class="ftr">
-  ⚠️ 仅供设计前阶段参考，不替代专业合规审查<br>
-  🔗 <a href="https://asa.or.th/laws-and-regulations/cba/" target="_blank">暹罗建筑师协会法规库 (ASA)</a><br>
-  <span style="display:inline-block;margin-top:10px;">🛠️ Designed & Developed by Xing & nanyuu_ohh</span>
-</div>
-
 <script src="js/data.js"></script>
 <script src="js/ui.js"></script>
 <script src="js/calc.js"></script>
+<script src="js/factory-egress-backend-v1.js"></script>
+<script src="js/factory-egress-modal-ui.js"></script>
 </body>
 </html>
