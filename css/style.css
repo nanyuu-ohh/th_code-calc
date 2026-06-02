@@ -51,25 +51,10 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans SC",sans
 .fg input{width:100%;height:38px;padding:8px 12px;border:1px solid var(--bd);border-radius:var(--r-input);font-size:14px;outline:none;background:var(--wh);transition:border .15s,box-shadow .15s}
 .fg input:focus{border-color:var(--c1);box-shadow:0 0 0 3px var(--c1l)}
 
-/* 新增的内嵌单位输入框样式 */
-.unit-wrap {
-  position: relative;
-  display: block;
-}
-.unit-wrap input {
-  padding-right: 42px; /* 留出右侧单位空间 */
-}
-.unit-wrap .u {
-  position: absolute;
-  right: 12px;
-  top: 50%;
-  transform: translateY(-50%);
-  color: var(--t3);
-  font-size: 13px;
-  pointer-events: none;
-  user-select: none;
-  font-weight: 500;
-}
+/* 内嵌单位输入框样式 */
+.unit-wrap { position: relative; display: block; }
+.unit-wrap input { padding-right: 42px; }
+.unit-wrap .u { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); color: var(--t3); font-size: 13px; pointer-events: none; user-select: none; font-weight: 500; }
 
 .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 
@@ -203,26 +188,42 @@ input:checked+.slider:before{transform:translateX(18px)}
 .ftr a{color:var(--t2);text-decoration:underline;font-weight:500;transition:color .2s}
 .ftr a:hover{color:var(--c1)}
 
-/* === 工厂疏散深度计算弹窗样式 === */
-.modal-overlay{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.5);z-index:9999;justify-content:center;align-items:center}
-.modal-content{background:#fff;padding:20px;border-radius:8px;width:90%;max-width:450px;box-shadow:0 10px 25px rgba(0,0,0,.2);max-height:90vh;overflow-y:auto}
-.modal-header{font-size:1.1em;font-weight:bold;margin-bottom:15px;border-bottom:1px solid #eee;padding-bottom:10px;display:flex;justify-content:space-between;align-items:center}
-.form-group{margin-bottom:15px}
-.form-group>label{display:block;margin-bottom:5px;font-weight:bold;color:var(--t2);font-size:.9em}
-.form-group-inline{display:flex;align-items:center;gap:6px;margin-top:8px}
-.form-group-inline input[type="checkbox"]{width:auto;margin:0;cursor:pointer}
-.form-group-inline label{display:inline-block;font-size:.85em;color:var(--t2);margin:0;font-weight:normal;cursor:pointer;white-space:nowrap}
-.form-group input[type="number"]{width:100%;padding:10px;border:1px solid #ccc;border-radius:4px;box-sizing:border-box;font-size:1em}
-.form-group input[readonly]{background:var(--bg);color:var(--t3);cursor:not-allowed}
-.calc-btn-sub{background:var(--c1);color:white;padding:12px;border:none;border-radius:6px;cursor:pointer;width:100%;font-size:1em;font-weight:bold;margin-top:10px}
-.calc-btn-sub:hover{background:var(--c1d)}
-.result-box{margin-top:20px;background:var(--bg2);padding:15px;border-radius:6px;border:1px solid #e5e7eb;font-size:.95em}
+/* === 新版：厂房疏散专用弹窗 Scoped CSS === */
+.fac-modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 9999; align-items: center; justify-content: center; backdrop-filter: blur(4px); }
+.fac-modal-overlay.show { display: flex; animation: facFadeIn 0.2s; }
+.fac-modal-content { background: #fff; width: 90%; max-width: 550px; max-height: 85vh; border-radius: 12px; display: flex; flex-direction: column; overflow: hidden; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.2); }
+.fac-modal-header { padding: 16px 20px; border-bottom: 1px solid #eee; display: flex; justify-content: space-between; align-items: center; background: #F8FAFC; }
+.fac-modal-body { padding: 20px; overflow-y: auto; }
+.fac-modal-inputs { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px; padding-bottom: 20px; border-bottom: 1px dashed #e2e8f0; }
 
-/* 可点击卡片的交互效果 */
+.fac-res-section { margin-bottom: 20px; }
+.fac-res-title { font-size: 14px; font-weight: 700; color: #475569; margin-bottom: 10px; display: flex; align-items: center; gap: 6px; }
+.fac-alert-box { background: #FEE2E2; color: #B91C1C; padding: 12px; border-radius: 6px; font-size: 13px; font-weight: bold; margin-bottom: 12px; border-left: 4px solid #DC2626; }
+.fac-title-box { font-weight: bold; color: #1E40AF; background: #DBEAFE; padding: 10px 12px; border-radius: 6px; margin-bottom: 12px; }
+
+/* 独立结果卡片 */
+.factory-egress-card { background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 14px; margin-bottom: 10px; display: flex; flex-direction: column; gap: 8px; transition: transform 0.2s; }
+.fac-card-main { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; min-width: 0; }
+.fac-card-info { display: flex; flex-direction: column; gap: 4px; flex: 1 1 auto; min-width: 0; }
+.fac-card-status { flex: 0 0 auto; font-size: 16px; line-height: 1; }
+.fac-card-ref { align-self: flex-end; max-width: 100%; font-size: 10px; background: rgba(255,255,255,0.6); padding: 2px 6px; border-radius: 4px; color: #64748B; text-align: right; white-space: normal; overflow-wrap: anywhere; word-break: break-word; }
+.fac-card-name { font-size: 13px; color: #64748B; font-weight: 600; }
+.fac-card-val { font-size: 18px; font-weight: bold; color: #0F172A; }
+.fac-card-unit { font-size: 12px; font-weight: normal; color: #94A3B8; margin-left: 2px;}
+
+/* 颜色状态类 */
+.egress-pass { border-left: 4px solid #10B981; background: #F0FDF4; }
+.egress-warn { border-left: 4px solid #F59E0B; background: #FEFCE8; }
+.egress-err { border-left: 4px solid #EF4444; background: #FEF2F2; }
+
+@keyframes facFadeIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
+
+/* 可点击卡片的交互效果 (保留原版逻辑用) */
 .clickable-card{cursor:pointer;transition:all .2s;position:relative}
 .clickable-card:hover{transform:translateY(-2px);box-shadow:0 4px 6px rgba(37,99,235,.2);border-color:var(--c1)}
 .clickable-card::after{content:"👆 点击深算";position:absolute;right:5px;bottom:5px;font-size:.7em;color:var(--c1);opacity:.8}
 
+/* === 响应式适配 === */
 @media(max-width:899px){
   .hdr{padding:20px 16px}
   .hdr h1{font-size:1.25rem}
